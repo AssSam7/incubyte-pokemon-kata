@@ -1,7 +1,11 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+export type Pokemon = {
+  name: string;
+};
+
 export type PokemonState = {
-  items: unknown[];
+  items: Pokemon[];
   loading: boolean;
   error: string | null;
 };
@@ -19,8 +23,11 @@ const pokemonSlice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
+    setPokemon(state, action: PayloadAction<Pokemon[]>) {
+      state.items = action.payload;
+    },
   },
 });
 
-export const { setLoading } = pokemonSlice.actions;
+export const { setLoading, setPokemon } = pokemonSlice.actions;
 export default pokemonSlice.reducer;
