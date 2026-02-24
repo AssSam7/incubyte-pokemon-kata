@@ -9,5 +9,11 @@ export const pokemonApi = createApi({
     getPokemon: builder.query<{ results: { name: string }[] }, void>({
       query: () => "pokemon",
     }),
+    getPokemonDetails: builder.query<
+      { name: string; height: number; weight: number },
+      string
+    >({
+      query: (name) => `pokemon/${name}`,
+    }),
   }),
 });
