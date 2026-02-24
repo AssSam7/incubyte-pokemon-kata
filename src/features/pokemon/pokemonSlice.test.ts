@@ -1,5 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonReducer, { setLoading, setPokemon } from "./pokemonSlice";
+import pokemonReducer, {
+  setLoading,
+  setPokemon,
+  setError,
+} from "./pokemonSlice";
 
 describe("pokemon slice", () => {
   it("should return the initial state", () => {
@@ -61,5 +65,19 @@ describe("pokemon slice", () => {
     const state = store.getState().pokemon;
 
     expect(state.items).toEqual(mockPokemon);
+  });
+
+  it("should set error message when setError is dispatched", () => {
+    const store = configureStore({
+      reducer: {
+        pokemon: pokemonReducer,
+      },
+    });
+
+    store.dispatch(setError("Failed to fetch"));
+
+    const state = store.getState().pokemon;
+
+    expect(state.error).toBe("Failed to fetch");
   });
 });
