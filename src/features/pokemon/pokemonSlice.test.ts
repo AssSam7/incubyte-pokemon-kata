@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonReducer from "./pokemonSlice";
+import pokemonReducer, { setLoading } from "./pokemonSlice";
 
 describe("pokemon slice", () => {
   it("should return the initial state", () => {
