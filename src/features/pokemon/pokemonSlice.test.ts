@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonReducer, { setLoading } from "./pokemonSlice";
+import pokemonReducer, { setLoading, setPokemon } from "./pokemonSlice";
 
 describe("pokemon slice", () => {
   it("should return the initial state", () => {
@@ -17,9 +17,6 @@ describe("pokemon slice", () => {
       error: null,
     });
   });
-});
-
-describe("pokemon slice", () => {
   it("should return the initial state", () => {
     const store = configureStore({
       reducer: {
@@ -48,5 +45,21 @@ describe("pokemon slice", () => {
     const state = store.getState().pokemon;
 
     expect(state.loading).toBe(true);
+  });
+
+  it("should set pokemon items when setPokemon is dispatched", () => {
+    const store = configureStore({
+      reducer: {
+        pokemon: pokemonReducer,
+      },
+    });
+
+    const mockPokemon = [{ name: "bulbasaur" }, { name: "charmander" }];
+
+    store.dispatch(setPokemon(mockPokemon));
+
+    const state = store.getState().pokemon;
+
+    expect(state.items).toEqual(mockPokemon);
   });
 });
