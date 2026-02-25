@@ -1,3 +1,4 @@
+@use "./reset";
 @use "./variables" as *;
 
 * {
@@ -8,7 +9,10 @@ body {
   margin: 0;
   font-family: $font-family-base;
   color: $color-text-primary;
-  background: linear-gradient(135deg, $color-bg-start 0%, $color-bg-end 100%);
+  background: linear-gradient(135deg, #f3f4f8 0%, #e9ecf5 100%);
+
+  display: flex;
+  justify-content: center;
 }
 
 a {
