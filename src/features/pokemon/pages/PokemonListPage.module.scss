@@ -1,3 +1,6 @@
+@use "../../../styles/mixins" as *;
+
+/* Main Layout + Header */
 .container {
   width: 80vw;
   margin-top: 26px;
@@ -5,6 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 
   header {
     display: flex;
@@ -44,4 +48,77 @@
   border-radius: 4px;
 
   background: linear-gradient(90deg, #ffd93d, #ffb703);
+}
+
+/* Search */
+.searchBar {
+  @include card-base;
+
+  width: 60%;
+  height: 64px;
+  border-radius: 20px;
+  padding: 6px 8px 6px 20px;
+
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.03);
+
+  transition: box-shadow 0.25s ease;
+
+  &:focus-within {
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.07),
+      0 0 0 3px rgba(255, 77, 79, 0.15);
+  }
+
+  input[type="search"] {
+    flex: 1;
+    height: 100%;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f2a44;
+
+    &::placeholder {
+      color: #9aa1b2;
+      font-weight: 400;
+    }
+  }
+}
+
+.searchButton {
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
+
+  color: white;
+
+  box-shadow: 0 8px 20px rgba(255, 77, 79, 0.35);
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255, 77, 79, 0.45);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }

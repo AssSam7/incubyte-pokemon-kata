@@ -1,0 +1,131 @@
+@use "../../../styles/mixins" as *;
+@use "../../../styles/variables" as *;
+
+.card {
+  @include card-base;
+  cursor: pointer;
+  background: radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.9) 0%,
+      transparent 60%
+    ),
+    linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
+
+  position: relative;
+  padding: 90px 24px 28px;
+  border-radius: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* IMAGE FLOATING EFFECT */
+.imageWrapper {
+  position: absolute;
+  top: -52px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 120px;
+  height: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+/* THIS IS THE IMPORTANT PART */
+.imageWrapper img {
+  width: 96px;
+  height: 96px;
+
+  object-fit: contain;
+
+  transform: scale(1.25); /* normalize perceived size */
+  transform-origin: center;
+
+  image-rendering: pixelated; /* crisp sprites */
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* ID */
+.pokemonId {
+  font-size: 14px;
+  font-weight: 600;
+  color: #9aa3b2;
+  margin-bottom: 6px;
+}
+
+/* NAME */
+.name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2a44;
+  margin-bottom: 14px;
+  text-transform: capitalize;
+}
+
+/* TYPES */
+.types {
+  display: flex;
+  gap: 10px;
+}
+
+.type {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.type[data-type="grass"] {
+  background: $pokemon-color-type-grass;
+  color: #1f2a44;
+}
+
+.type[data-type="fire"] {
+  background: $pokemon-color-type-fire;
+  color: white;
+}
+
+.type[data-type="water"] {
+  background: $pokemon-color-type-water;
+  color: white;
+}
+
+.type[data-type="ground"] {
+  background: $pokemon-color-type-ground;
+  color: #1f2a44;
+}
+
+.type[data-type="poison"] {
+  background: $pokemon-color-type-poison;
+  color: white;
+}
+
+.type[data-type="normal"] {
+  background: $pokemon-color-type-normal;
+  color: #1f2a44;
+}
+
+.type[data-type="flying"] {
+  background: $pokemon-color-type-flying;
+  color: white;
+}
+
+.type[data-type="steel"] {
+  background: $pokemon-color-type-steel;
+  color: #1f2a44;
+}
