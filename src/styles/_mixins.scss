@@ -1,0 +1,15 @@
+@mixin gradient-bg {
+  background: linear-gradient(135deg, $color-bg-start 0%, $color-bg-end 100%);
+}
+
+@mixin card-base {
+  background: $color-card-bg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-soft;
+  transition: all 0.25s ease;
+}
+
+@mixin hover-lift {
+  transform: translateY(-4px);
+  box-shadow: $shadow-hover;
+}

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { pokemonApi } from "../api/pokemonApi";
 
+import "./PokemonListPage.module";
+
 export default function PokemonListPage() {
   const { data, isLoading } = pokemonApi.useGetPokemonQuery();
 

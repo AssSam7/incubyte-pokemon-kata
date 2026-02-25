@@ -1,0 +1,25 @@
+// Color palette
+$color-primary: #6366f1;
+$color-primary-light: #8b5cf6;
+$color-accent: #f472b6;
+
+$color-bg-start: #f8fafc;
+$color-bg-end: #eef2ff;
+
+$color-card-bg: #ffffff;
+$color-text-primary: #1e293b;
+$color-text-secondary: #64748b;
+
+$color-border: #e2e8f0;
+
+// Typography
+$font-family-base: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+  sans-serif;
+
+// Radius
+$radius-md: 12px;
+$radius-lg: 18px;
+
+// Shadow
+$shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+$shadow-hover: 0 12px 30px rgba(99, 102, 241, 0.25);

@@ -1,0 +1,17 @@
+@use "./variables" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-base;
+  color: $color-text-primary;
+  background: linear-gradient(135deg, $color-bg-start 0%, $color-bg-end 100%);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
