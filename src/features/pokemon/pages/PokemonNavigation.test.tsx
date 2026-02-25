@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { store } from "../../../app/store";
@@ -28,7 +29,10 @@ describe("Pokemon navigation", () => {
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
             <Route path="/" element={<PokemonListPage />} />
-            <Route path="/pokemon/:name" element={<div>Detail Page</div>} />
+            <Route
+              path="/pokemon/:name"
+              element={<div>Pokemon Details Page</div>}
+            />
           </Routes>
         </MemoryRouter>
       </Provider>
@@ -38,10 +42,11 @@ describe("Pokemon navigation", () => {
       expect(screen.getByText("bulbasaur")).toBeInTheDocument()
     );
 
-    screen.getByText("bulbasaur").click();
+    const user = userEvent.setup();
+    await user.click(screen.getByText("bulbasaur"));
 
     await waitFor(() =>
-      expect(screen.getByText("Detail Page")).toBeInTheDocument()
+      expect(screen.getByText("Pokemon Details Page")).toBeInTheDocument()
     );
   });
 });

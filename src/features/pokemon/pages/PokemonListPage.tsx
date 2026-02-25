@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { pokemonApi } from "../api/pokemonApi";
 
 export default function PokemonListPage() {
@@ -10,11 +11,12 @@ export default function PokemonListPage() {
   return (
     <div>
       <h1>Pokemon List</h1>
-      {isLoading && <div>Loading...</div>}
       {data && (
         <ul>
           {data.results.map((pokemon) => (
-            <li key={pokemon.name}>{pokemon.name}</li>
+            <li key={pokemon.name}>
+              <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
+            </li>
           ))}
         </ul>
       )}

@@ -1,10 +1,23 @@
 import { describe, it, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { store } from "../../../app/store";
 import { setupServer } from "msw/node";
 import { http } from "msw";
 import PokemonListPage from "./PokemonListPage";
+import { configureStore } from "@reduxjs/toolkit";
+import pokemonReducer from "../pokemonSlice";
+import { pokemonApi } from "../api/pokemonApi";
+import { MemoryRouter } from "react-router-dom";
+
+function createTestStore() {
+  return configureStore({
+    reducer: {
+      pokemon: pokemonReducer,
+      [pokemonApi.reducerPath]: pokemonApi.reducer,
+    },
+    middleware: (gDM) => gDM().concat(pokemonApi.middleware),
+  });
+}
 
 const server = setupServer(
   http.get("https://pokeapi.co/api/v2/pokemon", () => {
@@ -23,9 +36,12 @@ afterAll(() => server.close());
 
 describe("PokemonListPage", () => {
   it("renders pokemon list after successful fetch", async () => {
+    const store = createTestStore();
     render(
       <Provider store={store}>
-        <PokemonListPage />
+        <MemoryRouter>
+          <PokemonListPage />
+        </MemoryRouter>
       </Provider>
     );
 
