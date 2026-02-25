@@ -3,6 +3,10 @@ import { pokemonApi } from "../api/pokemonApi";
 export default function PokemonListPage() {
   const { data, isLoading } = pokemonApi.useGetPokemonQuery();
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <h1>Pokemon List</h1>

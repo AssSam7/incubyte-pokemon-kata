@@ -1,5 +1,7 @@
+import PokemonListPage from "./features/pokemon/pages/PokemonListPage";
+
 function App() {
-  return <div>Incubyte Pokémon Kata</div>;
+  return <PokemonListPage />;
 }
 
 export default App;
