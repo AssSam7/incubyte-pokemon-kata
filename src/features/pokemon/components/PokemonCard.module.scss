@@ -12,7 +12,7 @@
     linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
 
   position: relative;
-  padding: 90px 24px 28px;
+  padding: 70px 24px 28px;
   border-radius: 24px;
 
   display: flex;
@@ -30,33 +30,25 @@
 /* IMAGE FLOATING EFFECT */
 .imageWrapper {
   position: absolute;
-  top: -52px;
+  top: -60px;
   left: 50%;
   transform: translateX(-50%);
 
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  pointer-events: none;
 }
 
-/* THIS IS THE IMPORTANT PART */
 .imageWrapper img {
   width: 96px;
   height: 96px;
-
   object-fit: contain;
 
-  transform: scale(1.25); /* normalize perceived size */
-  transform-origin: center;
-
-  image-rendering: pixelated; /* crisp sprites */
-  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.18))
-    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 6px 8px rgba(0, 0, 0, 0.12));
 }
 
 /* ID */

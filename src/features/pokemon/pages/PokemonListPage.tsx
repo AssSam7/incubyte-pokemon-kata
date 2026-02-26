@@ -16,7 +16,7 @@ export default function PokemonListPage() {
       id: index + 1,
       slug: pokemon.name,
       name: pokemon.name,
-      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
         index + 1
       }.png`,
       nId: `N°${String(index + 1).padStart(3, "0")}`,
