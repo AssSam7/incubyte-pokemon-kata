@@ -1,4 +1,5 @@
-import { describe, it, expect, beforeAll, afterEach, afterAll } from "vitest";
+import { expect, beforeAll, afterEach, afterAll } from "vitest";
+import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { setupServer } from "msw/node";
@@ -90,5 +91,73 @@ describe("PokemonListPage - enriched list", () => {
     expect(screen.getByText("Grass")).toBeInTheDocument();
     expect(screen.getByText("Poison")).toBeInTheDocument();
     expect(screen.getByText("Fire")).toBeInTheDocument();
+  });
+
+  it("filters pokemon based on the search input", async () => {
+    const store = createTestStore();
+    const user = userEvent.setup();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <PokemonListPage />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByText("Bulbasaur");
+
+    const input = screen.getByRole("searchbox");
+
+    await user.type(input, "Bul");
+
+    expect(await screen.findByText("Bulbasaur")).toBeInTheDocument();
+    expect(screen.queryByText("Charmander")).not.toBeInTheDocument();
+  });
+
+  it("shows empty state when no results match search", async () => {
+    const user = userEvent.setup();
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <PokemonListPage />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByText("Bulbasaur");
+
+    const input = screen.getByRole("searchbox");
+
+    await user.type(input, "xyz");
+
+    expect(screen.getByText(/No Pokémon Found/i)).toBeInTheDocument();
+  });
+
+  it("clicking suggestion updates search", async () => {
+    const user = userEvent.setup();
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <PokemonListPage />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByText("Bulbasaur");
+
+    const input = screen.getByRole("searchbox");
+
+    await user.type(input, "zzz");
+
+    const suggestion = screen.getByRole("button", { name: /bulbasaur/i });
+
+    await user.click(suggestion);
+
+    expect(input).toHaveValue("bulbasaur");
   });
 });
