@@ -3,9 +3,23 @@ import styles from "./PokemonListPage.module.scss";
 import { Search } from "lucide-react";
 import { PokemonList } from "../components";
 import PokemonListSkeleton from "../components/PokemonListSkeleton";
+import { useMemo, useState } from "react";
+import EmptyState from "../components/EmptyState";
 
 export default function PokemonListPage() {
+  const [searchText, setSearchText] = useState("");
+
   const { data, isLoading } = pokemonApi.useGetPokemonListWithDetailsQuery();
+
+  const filteredProductList = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+
+    return data?.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [data, searchText]);
 
   return (
     <div className={styles.container}>
@@ -21,7 +35,12 @@ export default function PokemonListPage() {
       </header>
 
       <div className={styles.searchBar}>
-        <input type="search" placeholder="Search your Pokemon!" />
+        <input
+          type="search"
+          placeholder="Search your Pokemon!"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
         <button className={styles.searchButton}>
           <Search size={24} color="white" strokeWidth={2.75} />
         </button>
@@ -29,8 +48,10 @@ export default function PokemonListPage() {
 
       {isLoading && !data ? (
         <PokemonListSkeleton />
+      ) : filteredProductList.length === 0 ? (
+        <EmptyState searchText={searchText} onSearch={setSearchText} />
       ) : (
-        <PokemonList pokemons={data || []} />
+        <PokemonList pokemons={filteredProductList} />
       )}
     </div>
   );
