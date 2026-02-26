@@ -2,26 +2,13 @@ import { pokemonApi } from "../api/pokemonApi";
 import styles from "./PokemonListPage.module.scss";
 import { Search } from "lucide-react";
 import { PokemonList } from "../components";
-import { PokemonCardData } from "../types";
 
 export default function PokemonListPage() {
-  const { data, isLoading } = pokemonApi.useGetPokemonQuery();
+  const { data, isLoading } = pokemonApi.useGetPokemonListWithDetailsQuery();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  const pokemonsData: PokemonCardData[] =
-    data?.results.map((pokemon, index) => ({
-      id: index + 1,
-      slug: pokemon.name,
-      name: pokemon.name,
-      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
-        index + 1
-      }.png`,
-      nId: `N°${String(index + 1).padStart(3, "0")}`,
-      types: ["Ground", "Fire"],
-    })) ?? [];
 
   return (
     <div className={styles.container}>
@@ -43,7 +30,7 @@ export default function PokemonListPage() {
         </button>
       </div>
 
-      {pokemonsData?.length > 0 && <PokemonList pokemons={pokemonsData} />}
+      {data && data?.length > 0 && <PokemonList pokemons={data || []} />}
     </div>
   );
 }

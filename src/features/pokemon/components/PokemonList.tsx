@@ -1,11 +1,12 @@
-import { PokemonCardData } from "../types";
+import { EnrichedPokemon } from "../api/pokemonApi";
+
 import PokemonCard from "./PokemonCard";
 import styles from "./PokemonList.module.scss";
 
 export default function PokemonList({
   pokemons,
 }: {
-  pokemons: PokemonCardData[];
+  pokemons: EnrichedPokemon[];
 }) {
   return (
     <div className={styles.cardList}>
@@ -13,8 +14,8 @@ export default function PokemonList({
         <PokemonCard
           key={pokemon.id}
           id={pokemon.id}
-          img={pokemon.img}
-          nId={pokemon.nId}
+          img={pokemon.image}
+          nId={pokemon.formattedId}
           name={pokemon.name}
           types={pokemon.types}
         />

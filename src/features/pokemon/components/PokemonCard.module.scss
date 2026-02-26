@@ -78,46 +78,15 @@
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
+  text-transform: uppercase;
 }
 
-.type[data-type="grass"] {
-  background: $pokemon-color-type-grass;
-  color: #1f2a44;
-}
-
-.type[data-type="fire"] {
-  background: $pokemon-color-type-fire;
-  color: white;
-}
-
-.type[data-type="water"] {
-  background: $pokemon-color-type-water;
-  color: white;
-}
-
-.type[data-type="ground"] {
-  background: $pokemon-color-type-ground;
-  color: #1f2a44;
-}
-
-.type[data-type="poison"] {
-  background: $pokemon-color-type-poison;
-  color: white;
-}
-
-.type[data-type="normal"] {
-  background: $pokemon-color-type-normal;
-  color: #1f2a44;
-}
-
-.type[data-type="flying"] {
-  background: $pokemon-color-type-flying;
-  color: white;
-}
-
-.type[data-type="steel"] {
-  background: $pokemon-color-type-steel;
-  color: #1f2a44;
+/* Loop through map */
+@each $type, $values in $pokemon-type-styles {
+  .type[data-type="#{$type}"] {
+    background: map-get($values, bg);
+    color: map-get($values, text);
+  }
 }

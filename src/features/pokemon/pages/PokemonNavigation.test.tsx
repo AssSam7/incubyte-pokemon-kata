@@ -39,11 +39,11 @@ describe("Pokemon navigation", () => {
     );
 
     await waitFor(() =>
-      expect(screen.getByText("bulbasaur")).toBeInTheDocument()
+      expect(screen.getByText("Bulbasaur")).toBeInTheDocument()
     );
 
     const user = userEvent.setup();
-    await user.click(screen.getByText("bulbasaur"));
+    await user.click(screen.getByText("Bulbasaur"));
 
     await waitFor(() =>
       expect(screen.getByText("Pokemon Details Page")).toBeInTheDocument()
