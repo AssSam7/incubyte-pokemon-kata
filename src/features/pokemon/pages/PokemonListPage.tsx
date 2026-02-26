@@ -2,13 +2,10 @@ import { pokemonApi } from "../api/pokemonApi";
 import styles from "./PokemonListPage.module.scss";
 import { Search } from "lucide-react";
 import { PokemonList } from "../components";
+import PokemonListSkeleton from "../components/PokemonListSkeleton";
 
 export default function PokemonListPage() {
   const { data, isLoading } = pokemonApi.useGetPokemonListWithDetailsQuery();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className={styles.container}>
@@ -30,7 +27,11 @@ export default function PokemonListPage() {
         </button>
       </div>
 
-      {data && data?.length > 0 && <PokemonList pokemons={data || []} />}
+      {isLoading && !data ? (
+        <PokemonListSkeleton />
+      ) : (
+        <PokemonList pokemons={data || []} />
+      )}
     </div>
   );
 }
