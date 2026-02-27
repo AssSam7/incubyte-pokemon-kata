@@ -1,0 +1,78 @@
+@use "../../../styles/mixins" as *;
+
+.selectButtonContainer {
+  position: relative;
+}
+
+.selectButton {
+  cursor: pointer;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background-color: #ffffff;
+  border: 1px solid #e5e9f2;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2a44;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &:focus {
+    @include hover-focus-action;
+  }
+}
+
+.dropDownPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  min-width: 220px;
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eef1f7;
+  z-index: 20;
+  animation: fadeIn 180ms ease;
+
+  & div {
+    cursor: pointer;
+    height: 38px;
+    border-radius: 10px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: transparent;
+    color: #1f2a44;
+
+    &:hover {
+      background-color: #f4f6fb;
+    }
+  }
+}
+
+.selectedOption {
+  background-color: rgba(255, 77, 79, 0.08);
+  color: #ff4d4f;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

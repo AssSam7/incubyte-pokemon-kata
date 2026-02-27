@@ -115,8 +115,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(255, 77, 79, 0.45);
+    @include hover-focus-action;
   }
 
   &:active {

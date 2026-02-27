@@ -5,6 +5,7 @@ import { PokemonList } from "../components";
 import PokemonListSkeleton from "../components/PokemonListSkeleton";
 import { useMemo, useState } from "react";
 import EmptyState from "../components/EmptyState";
+import ActionToolbar from "../components/Actiontoolbar";
 
 export default function PokemonListPage() {
   const [searchText, setSearchText] = useState("");
@@ -45,6 +46,8 @@ export default function PokemonListPage() {
           <Search size={24} color="white" strokeWidth={2.75} />
         </button>
       </div>
+
+      <ActionToolbar />
 
       {isLoading && !data ? (
         <PokemonListSkeleton />

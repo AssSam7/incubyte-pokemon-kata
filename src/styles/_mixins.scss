@@ -25,3 +25,8 @@
   font-size: 12px;
   font-weight: 600;
 }
+
+@mixin hover-focus-action {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255, 77, 79, 0.45);
+}
