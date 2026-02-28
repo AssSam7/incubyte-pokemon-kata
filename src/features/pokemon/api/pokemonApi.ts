@@ -6,6 +6,8 @@ export type EnrichedPokemon = {
   name: string;
   image: string;
   types: string[];
+  ability?: string;
+  height?: number;
 };
 
 export const pokemonApi = createApi({
@@ -58,6 +60,12 @@ export const pokemonApi = createApi({
                 (t: any) =>
                   t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)
               ),
+              ability: detail.abilities?.[0]?.ability?.name
+                ? detail.abilities[0].ability.name
+                    .replace("-", " ")
+                    .replace(/\b\w/g, (c: string) => c.toUpperCase())
+                : undefined,
+              height: detail.height,
             };
           })
         );

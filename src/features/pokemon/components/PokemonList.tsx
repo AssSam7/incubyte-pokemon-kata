@@ -14,10 +14,12 @@ export default function PokemonList({
         <PokemonCard
           key={pokemon.id}
           id={pokemon.id}
-          img={pokemon.image}
-          nId={pokemon.formattedId}
+          image={pokemon.image}
+          formattedId={pokemon.formattedId}
           name={pokemon.name}
           types={pokemon.types}
+          ability={pokemon.ability}
+          height={pokemon.height}
         />
       ))}
     </div>

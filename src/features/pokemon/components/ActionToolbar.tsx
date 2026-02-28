@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./ActionToolbar.module.scss";
 import Select from "./Select";
-import { CircleDot, CircleSlash } from "lucide-react";
+import { CircleDot, CircleDotDashed, CircleSlash } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setFilters } from "../store/uiSlice";
 import { FilterKey, SelectOption } from "../types/filters";
@@ -16,6 +16,7 @@ type ToolbarItem = {
 const items: ToolbarItem[] = [
   { id: 1, label: "Ascending", key: "sortBy" },
   { id: 2, label: "Type", key: "type", icon: <CircleDot /> },
+  { id: 3, label: "Ability", key: "ability", icon: <CircleDotDashed /> },
   { id: 4, label: "Height", key: "height", icon: <CircleSlash /> },
 ];
 
@@ -45,6 +46,18 @@ const filterOptions: Record<FilterKey, SelectOption[]> = {
     { label: "Dark", value: "dark" },
     { label: "Steel", value: "steel" },
     { label: "Fairy", value: "fairy" },
+  ],
+  ability: [
+    { label: "Overgrow", value: "overgrow" },
+    { label: "Blaze", value: "blaze" },
+    { label: "Torrent", value: "torrent" },
+    { label: "Shield Dust", value: "shield-dust" },
+    { label: "Intimidate", value: "intimidate" },
+    { label: "Static", value: "static" },
+    { label: "Levitate", value: "levitate" },
+    { label: "Chlorophyll", value: "chlorophyll" },
+    { label: "Swift Swim", value: "swift-swim" },
+    { label: "Pressure", value: "pressure" },
   ],
   height: [
     { label: "Shortest First", value: "height_asc" },

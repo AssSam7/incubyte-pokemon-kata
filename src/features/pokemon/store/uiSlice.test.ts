@@ -1,4 +1,4 @@
-import reducer, { setSearchText, setFilter, resetFilters } from "./uiSlice";
+import reducer, { setSearchText, setFilters, resetFilters } from "./uiSlice";
 
 describe("pokemonUISlice", () => {
   it("should return initial state", () => {
@@ -18,7 +18,10 @@ describe("pokemonUISlice", () => {
   });
 
   it("should update specific filter", () => {
-    const state = reducer(undefined, setFilter({ key: "type", value: "fire" }));
+    const state = reducer(
+      undefined,
+      setFilters({ key: "type", value: "fire" })
+    );
 
     expect(state.filters.type).toBe("fire");
   });
@@ -26,7 +29,7 @@ describe("pokemonUISlice", () => {
   it("should reset filters", () => {
     const populatedState = reducer(
       undefined,
-      setFilter({ key: "type", value: "fire" })
+      setFilters({ key: "type", value: "fire" })
     );
 
     const resetState = reducer(populatedState, resetFilters());
