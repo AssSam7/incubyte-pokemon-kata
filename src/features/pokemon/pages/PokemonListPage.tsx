@@ -112,6 +112,7 @@ export default function PokemonListPage() {
         <EmptyState
           searchText={searchText}
           onSearch={(val) => dispatch(setSearchText(val))}
+          hasActiveFilters={filters.type !== "" || filters.ability !== ""}
         />
       ) : (
         <PokemonList pokemons={processedList} />

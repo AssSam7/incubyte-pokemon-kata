@@ -13,4 +13,10 @@ describe("store configuration", () => {
 
     expect(state.pokemon).toBeDefined();
   });
+
+  it("should include pokemon UI reducer", () => {
+    const state = store.getState();
+
+    expect(state.pokemonUI).toBeDefined();
+  });
 });
