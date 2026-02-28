@@ -27,10 +27,13 @@ const pokemonUISlice = createSlice({
     resetFilters(state) {
       state.filters = initialFilters;
     },
+    clearAllFilters(state) {
+      state.filters = { ...state.filters, type: "", ability: "" };
+    },
   },
 });
 
-export const { setSearchText, setFilters, resetFilters } =
+export const { setSearchText, setFilters, resetFilters, clearAllFilters } =
   pokemonUISlice.actions;
 
 export default pokemonUISlice.reducer;

@@ -55,7 +55,9 @@ export const pokemonApi = createApi({
               id: detail.id,
               formattedId: `N°${String(detail.id).padStart(3, "0")}`,
               name: detail.name.charAt(0).toUpperCase() + detail.name.slice(1),
-              image: detail.sprites.other["official-artwork"].front_default,
+              image:
+                detail.sprites.other["home"]?.front_default ??
+                detail.sprites.other["official-artwork"].front_default,
               types: detail.types.map(
                 (t: any) =>
                   t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)

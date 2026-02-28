@@ -1,6 +1,6 @@
 import { Check, ChevronDown } from "lucide-react";
 import styles from "./Select.module.scss";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { SelectOption } from "../types/filters";
 
 type Props = {
@@ -8,10 +8,11 @@ type Props = {
   label: string;
   options: SelectOption[];
   selectedValue?: string;
-  variant?: "default" | "sort";
+  variant?: "default" | "type" | "ability";
   onToggle: () => void;
   onSelectOption: (value: string) => void;
   isOpen: boolean;
+  onClose: () => void;
 };
 
 export default function Select({
@@ -23,15 +24,33 @@ export default function Select({
   onToggle,
   onSelectOption,
   isOpen,
+  onClose,
 }: Props) {
   const selectedOption = options.find((opt) => opt.value === selectedValue);
+  const selectDropDownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        selectDropDownRef.current &&
+        !selectDropDownRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
     <div className={styles.selectButtonContainer}>
       <div
         className={`${styles.selectButton} 
           ${isOpen ? styles.active : ""} 
-          ${variant === "sort" ? styles.sortVariant : ""}`}
+          ${variant ? styles[variant] : ""}`}
         onClick={onToggle}
       >
         <div>
@@ -42,7 +61,7 @@ export default function Select({
       </div>
 
       {isOpen && (
-        <div className={styles.dropDownPanel}>
+        <div ref={selectDropDownRef} className={styles.dropDownPanel}>
           {options.map((option) => {
             const isSelected = option.value === selectedValue;
 

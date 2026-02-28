@@ -1,9 +1,60 @@
-.actionToolbar {
-  width: 70%;
-  margin-top: 24px;
-  margin-bottom: 24px;
-
+.toolbar {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: 1.5fr 1.2fr 1.2fr 1.2fr 1fr;
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.filterGroup {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filterLabel {
+  min-width: 22%;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+/* RESET BUTTON */
+.resetBtn {
+  padding: 10px 18px;
+  border-radius: 14px;
+
+  background: #fff;
+  border: 1px solid #e2e8f0;
+
+  font-weight: 600;
+  font-size: 14px;
+  color: #2d3748;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resetBtn:hover {
+  background: #e6e9ef;
+}
+
+/* CLEAR BUTTON */
+.clearBtn {
+  padding: 10px 20px;
+  border-radius: 14px;
+
+  background: #ff4d4f;
+  border: none;
+
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearBtn:hover {
+  background: #e13e40;
 }
