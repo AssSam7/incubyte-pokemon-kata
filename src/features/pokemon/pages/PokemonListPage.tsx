@@ -3,24 +3,62 @@ import styles from "./PokemonListPage.module.scss";
 import { Search } from "lucide-react";
 import { PokemonList } from "../components";
 import PokemonListSkeleton from "../components/PokemonListSkeleton";
-import { useMemo, useState } from "react";
 import EmptyState from "../components/EmptyState";
-import ActionToolbar from "../components/Actiontoolbar";
+import ActionToolbar from "../components/ActionToolbar";
+
+import { useMemo } from "react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { setSearchText } from "../store/uiSlice";
 
 export default function PokemonListPage() {
-  const [searchText, setSearchText] = useState("");
+  const dispatch = useAppDispatch();
+
+  const searchText = useAppSelector((state) => state.pokemonUI.searchText);
+
+  const filters = useAppSelector((state) => state.pokemonUI.filters);
 
   const { data, isLoading } = pokemonApi.useGetPokemonListWithDetailsQuery();
 
-  const filteredProductList = useMemo(() => {
-    if (!data) {
-      return [];
+  const processedList = useMemo(() => {
+    if (!data) return [];
+
+    let list = [...data];
+
+    if (searchText) {
+      list = list.filter((p) =>
+        p.name.toLowerCase().includes(searchText.toLowerCase())
+      );
     }
 
-    return data?.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [data, searchText]);
+    if (filters.type) {
+      list = list.filter((p) => p.types.includes(filters.type));
+    }
+
+    switch (filters.sortBy) {
+      case "id_asc":
+        list.sort((a, b) => a.id - b.id);
+        break;
+      case "id_desc":
+        list.sort((a, b) => b.id - a.id);
+        break;
+      case "name_asc":
+        list.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "name_desc":
+        list.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+    }
+
+    // if (filters.height === "height_asc") {
+    //   list.sort((a, b) => a.height - b.height);
+    // }
+
+    // if (filters.height === "height_desc") {
+    //   list.sort((a, b) => b.height - a.height);
+    // }
+
+    return list;
+  }, [data, searchText, filters]);
 
   return (
     <div className={styles.container}>
@@ -40,7 +78,7 @@ export default function PokemonListPage() {
           type="search"
           placeholder="Search your Pokemon!"
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => dispatch(setSearchText(e.target.value))}
         />
         <button className={styles.searchButton}>
           <Search size={24} color="white" strokeWidth={2.75} />
@@ -51,10 +89,13 @@ export default function PokemonListPage() {
 
       {isLoading && !data ? (
         <PokemonListSkeleton />
-      ) : filteredProductList.length === 0 ? (
-        <EmptyState searchText={searchText} onSearch={setSearchText} />
+      ) : processedList.length === 0 ? (
+        <EmptyState
+          searchText={searchText}
+          onSearch={(val) => dispatch(setSearchText(val))}
+        />
       ) : (
-        <PokemonList pokemons={filteredProductList} />
+        <PokemonList pokemons={processedList} />
       )}
     </div>
   );

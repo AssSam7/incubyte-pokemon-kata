@@ -1,7 +1,7 @@
 import { Check, ChevronDown } from "lucide-react";
 import styles from "./Select.module.scss";
 import { ReactNode } from "react";
-import { SelectOption } from "./Actiontoolbar";
+import { SelectOption } from "../types/filters";
 
 type Props = {
   icon?: ReactNode;
@@ -10,7 +10,7 @@ type Props = {
   selectedValue?: string;
   variant?: "default" | "sort";
   onToggle: () => void;
-  onSelectOption: (option: string) => void;
+  onSelectOption: (value: string) => void;
   isOpen: boolean;
 };
 
@@ -24,6 +24,8 @@ export default function Select({
   onSelectOption,
   isOpen,
 }: Props) {
+  const selectedOption = options.find((opt) => opt.value === selectedValue);
+
   return (
     <div className={styles.selectButtonContainer}>
       <div
@@ -34,7 +36,7 @@ export default function Select({
       >
         <div>
           {icon}
-          <span>{selectedValue || label}</span>
+          <span>{selectedOption?.label ?? label}</span>
         </div>
         <ChevronDown size={18} />
       </div>
@@ -42,7 +44,7 @@ export default function Select({
       {isOpen && (
         <div className={styles.dropDownPanel}>
           {options.map((option) => {
-            const isSelected = option.label === selectedValue;
+            const isSelected = option.value === selectedValue;
 
             return (
               <div
@@ -50,7 +52,7 @@ export default function Select({
                 className={`${styles.option} ${
                   isSelected ? styles.selected : ""
                 }`}
-                onClick={() => onSelectOption(option.label)}
+                onClick={() => onSelectOption(option.value)}
               >
                 <Check size={16} strokeWidth={3.5} />
                 <span>{option.label}</span>

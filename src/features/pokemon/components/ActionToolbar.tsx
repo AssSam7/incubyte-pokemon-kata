@@ -1,38 +1,24 @@
 import { useState } from "react";
 import styles from "./ActionToolbar.module.scss";
 import Select from "./Select";
-import { CircleDot, CircleDotDashed, CircleSlash } from "lucide-react";
+import { CircleDot, CircleSlash } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { setFilters } from "../store/uiSlice";
+import { FilterKey, SelectOption } from "../types/filters";
 
-export type FilterKey = "sortBy" | "type" | "ability" | "height";
-export type SelectOption = {
-  label: string;
-  value: string;
-};
 type ToolbarItem = {
   id: number;
   label: string;
   key: FilterKey;
   icon?: React.ReactNode;
 };
-type Filters = {
-  sortBy: string;
-  type: string;
-  ability: string;
-  height: string;
-};
 
-const initialFilters: Filters = {
-  sortBy: "",
-  type: "",
-  ability: "",
-  height: "",
-};
 const items: ToolbarItem[] = [
   { id: 1, label: "Ascending", key: "sortBy" },
   { id: 2, label: "Type", key: "type", icon: <CircleDot /> },
-  { id: 3, label: "Ability", key: "ability", icon: <CircleDotDashed /> },
   { id: 4, label: "Height", key: "height", icon: <CircleSlash /> },
 ];
+
 const filterOptions: Record<FilterKey, SelectOption[]> = {
   sortBy: [
     { label: "ID (Ascending)", value: "id_asc" },
@@ -40,7 +26,6 @@ const filterOptions: Record<FilterKey, SelectOption[]> = {
     { label: "Name (A–Z)", value: "name_asc" },
     { label: "Name (Z–A)", value: "name_desc" },
   ],
-
   type: [
     { label: "Normal", value: "normal" },
     { label: "Fire", value: "fire" },
@@ -61,20 +46,6 @@ const filterOptions: Record<FilterKey, SelectOption[]> = {
     { label: "Steel", value: "steel" },
     { label: "Fairy", value: "fairy" },
   ],
-
-  ability: [
-    { label: "Overgrow", value: "overgrow" },
-    { label: "Blaze", value: "blaze" },
-    { label: "Torrent", value: "torrent" },
-    { label: "Shield Dust", value: "shield-dust" },
-    { label: "Intimidate", value: "intimidate" },
-    { label: "Static", value: "static" },
-    { label: "Levitate", value: "levitate" },
-    { label: "Chlorophyll", value: "chlorophyll" },
-    { label: "Swift Swim", value: "swift-swim" },
-    { label: "Pressure", value: "pressure" },
-  ],
-
   height: [
     { label: "Shortest First", value: "height_asc" },
     { label: "Tallest First", value: "height_desc" },
@@ -82,8 +53,9 @@ const filterOptions: Record<FilterKey, SelectOption[]> = {
 };
 
 export default function ActionToolbar() {
+  const dispatch = useAppDispatch();
+  const filters = useAppSelector((state) => state.pokemonUI.filters);
   const [openSelect, setOpenSelect] = useState<FilterKey | null>(null);
-  const [filters, setFilters] = useState<typeof initialFilters>(initialFilters);
 
   return (
     <div className={styles.actionToolbar}>
@@ -93,14 +65,14 @@ export default function ActionToolbar() {
           icon={item.icon}
           label={item.label}
           options={filterOptions[item.key]}
-          variant={item.label === "Ascending" ? "sort" : "default"}
+          variant={item.key === "sortBy" ? "sort" : "default"}
           selectedValue={filters[item.key]}
           isOpen={openSelect === item.key}
           onToggle={() =>
             setOpenSelect(openSelect === item.key ? null : item.key)
           }
           onSelectOption={(value) => {
-            setFilters((prev) => ({ ...prev, [item.key]: value }));
+            dispatch(setFilters({ key: item.key, value }));
             setOpenSelect(null);
           }}
         />

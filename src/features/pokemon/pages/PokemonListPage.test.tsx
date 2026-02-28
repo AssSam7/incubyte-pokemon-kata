@@ -7,6 +7,7 @@ import { http } from "msw";
 import PokemonListPage from "./PokemonListPage";
 import { configureStore } from "@reduxjs/toolkit";
 import pokemonReducer from "../store/pokemonSlice";
+import pokemonUIReducer from "../store/uiSlice";
 import { pokemonApi } from "../api/pokemonApi";
 import { MemoryRouter } from "react-router-dom";
 
@@ -15,6 +16,7 @@ function createTestStore() {
     reducer: {
       pokemon: pokemonReducer,
       [pokemonApi.reducerPath]: pokemonApi.reducer,
+      pokemonUI: pokemonUIReducer,
     },
     middleware: (gDM) => gDM().concat(pokemonApi.middleware),
   });
