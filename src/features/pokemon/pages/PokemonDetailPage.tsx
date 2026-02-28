@@ -1,28 +1,24 @@
 import { useParams } from "react-router-dom";
 import { pokemonApi } from "../api/pokemonApi";
+import styles from "./PokemonDetailPage.module.scss";
+
+import PokemonHero from "../components/detail/PokemonHero";
+import PokemonTabs from "../components/detail/PokemonTabs";
 
 export default function PokemonDetailPage() {
-  const { name } = useParams();
+  const { name } = useParams<{ name: string }>();
 
-  if (!name) {
-    return null;
-  }
+  const { data, isLoading, isError } = pokemonApi.useGetPokemonDetailsQuery(
+    name ?? ""
+  );
 
-  const { data, isLoading } = pokemonApi.useGetPokemonDetailsQuery(name);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!data) {
-    return null;
-  }
+  if (isLoading) return <p className={styles.state}>Loading...</p>;
+  if (isError || !data) return <p className={styles.state}>Error loading</p>;
 
   return (
-    <div>
-      <h1>{data.name}</h1>
-      <p>Height: {data.height}</p>
-      <p>Weight: {data.weight}</p>
+    <div className={styles.container}>
+      <PokemonHero pokemon={data} />
+      <PokemonTabs pokemon={data} />
     </div>
   );
 }

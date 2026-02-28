@@ -53,7 +53,9 @@ describe("PokemonDetailPage", () => {
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByText("bulbasaur")).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: /bulbasaur/i })
+      ).toBeInTheDocument();
       expect(screen.getByText(/height/i)).toBeInTheDocument();
       expect(screen.getByText(/weight/i)).toBeInTheDocument();
     });
