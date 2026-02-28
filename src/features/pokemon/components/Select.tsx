@@ -72,6 +72,8 @@ export default function Select({
                   isSelected ? styles.selected : ""
                 }`}
                 onClick={() => onSelectOption(option.value)}
+                aria-selected={isSelected}
+                role="option"
               >
                 <Check size={16} strokeWidth={3.5} />
                 <span>{option.label}</span>
