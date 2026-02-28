@@ -6,7 +6,7 @@ import { setupServer } from "msw/node";
 import { http } from "msw";
 import PokemonListPage from "./PokemonListPage";
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonReducer from "../pokemonSlice";
+import pokemonReducer from "../store/pokemonSlice";
 import { pokemonApi } from "../api/pokemonApi";
 import { MemoryRouter } from "react-router-dom";
 

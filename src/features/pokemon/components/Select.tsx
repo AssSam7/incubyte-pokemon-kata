@@ -1,42 +1,62 @@
 import { Check, ChevronDown } from "lucide-react";
 import styles from "./Select.module.scss";
 import { ReactNode } from "react";
+import { SelectOption } from "./Actiontoolbar";
 
 type Props = {
   icon?: ReactNode;
   label: string;
-  options: string[];
-  onSelect: (name: string) => void;
+  options: SelectOption[];
+  selectedValue?: string;
+  variant?: "default" | "sort";
+  onToggle: () => void;
   onSelectOption: (option: string) => void;
-  isSelected: boolean;
+  isOpen: boolean;
 };
 
 export default function Select({
   icon,
   label,
   options,
-  onSelect,
+  selectedValue,
+  variant = "default",
+  onToggle,
   onSelectOption,
-  isSelected,
+  isOpen,
 }: Props) {
   return (
     <div className={styles.selectButtonContainer}>
-      <div className={styles.selectButton} onClick={() => onSelect(label)}>
+      <div
+        className={`${styles.selectButton} 
+          ${isOpen ? styles.active : ""} 
+          ${variant === "sort" ? styles.sortVariant : ""}`}
+        onClick={onToggle}
+      >
         <div>
           {icon}
-          <span>{label}</span>
+          <span>{selectedValue || label}</span>
         </div>
-        <ChevronDown />
+        <ChevronDown size={18} />
       </div>
 
-      {isSelected && (
+      {isOpen && (
         <div className={styles.dropDownPanel}>
-          {options.map((option) => (
-            <div key={option} onClick={() => onSelectOption(option)}>
-              <Check />
-              <span>{option}</span>
-            </div>
-          ))}
+          {options.map((option) => {
+            const isSelected = option.label === selectedValue;
+
+            return (
+              <div
+                key={option.value}
+                className={`${styles.option} ${
+                  isSelected ? styles.selected : ""
+                }`}
+                onClick={() => onSelectOption(option.label)}
+              >
+                <Check size={16} strokeWidth={3.5} />
+                <span>{option.label}</span>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

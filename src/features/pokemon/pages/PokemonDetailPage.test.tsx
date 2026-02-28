@@ -4,7 +4,7 @@ import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { setupServer } from "msw/node";
 import { http } from "msw";
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonReducer from "../pokemonSlice";
+import pokemonReducer from "../store/pokemonSlice";
 import { pokemonApi } from "../api/pokemonApi";
 import PokemonDetailPage from "./PokemonDetailPage";
 
