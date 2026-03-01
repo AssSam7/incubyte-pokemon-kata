@@ -11,6 +11,7 @@ export default function PokemonDetailPage() {
   const { data, isLoading, isError } = pokemonApi.useGetPokemonDetailsQuery(
     name ?? ""
   );
+  const { data: species } = pokemonApi.useGetPokemonSpeciesQuery(name ?? "");
 
   if (isLoading) return <p className={styles.state}>Loading...</p>;
   if (isError || !data) return <p className={styles.state}>Error loading</p>;
@@ -19,7 +20,7 @@ export default function PokemonDetailPage() {
     <div className={styles.pageWrapper}>
       <div className={styles.detailContainer}>
         <PokemonHero pokemon={data} />
-        <PokemonTabs pokemon={data} />
+        <PokemonTabs pokemon={data} species={species} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PokemonDetails } from "../types/pokemonDetails";
+import { PokemonSpecies } from "../types/pokemonSpecies";
 
 export type EnrichedPokemon = {
   id: number;
@@ -72,6 +73,9 @@ export const pokemonApi = createApi({
 
         return { data: enriched };
       },
+    }),
+    getPokemonSpecies: builder.query<PokemonSpecies, string>({
+      query: (name) => `https://pokeapi.co/api/v2/pokemon-species/${name}`,
     }),
   }),
 });
