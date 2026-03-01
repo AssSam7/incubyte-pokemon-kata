@@ -4,18 +4,19 @@ import styles from "./PokemonTabs.module.scss";
 import AboutTab from "./AboutTab";
 import StatsTab from "./StatsTab";
 import EvolutionTab from "./EvolutionTab";
+import { PokemonDetails } from "../../types/pokemonDetails";
 
 type Props = {
-  pokemon: any;
+  pokemon: PokemonDetails;
 };
 
+type Tab = "about" | "stats" | "evolution";
+
 export default function PokemonTabs({ pokemon }: Props) {
-  const [active, setActive] = useState<"about" | "stats" | "evolution">(
-    "about"
-  );
+  const [active, setActive] = useState<Tab>("about");
 
   return (
-    <div>
+    <div className={styles.tabsWrapper}>
       <div className={styles.tabs}>
         {["about", "stats", "evolution"].map((tab) => (
           <button
@@ -23,7 +24,7 @@ export default function PokemonTabs({ pokemon }: Props) {
             className={
               active === tab ? `${styles.tab} ${styles.active}` : styles.tab
             }
-            onClick={() => setActive(tab as any)}
+            onClick={() => setActive(tab as Tab)}
           >
             {tab}
           </button>
@@ -33,7 +34,7 @@ export default function PokemonTabs({ pokemon }: Props) {
       <div className={styles.panel}>
         {active === "about" && <AboutTab pokemon={pokemon} />}
         {active === "stats" && <StatsTab pokemon={pokemon} />}
-        {active === "evolution" && <EvolutionTab pokemon={pokemon} />}
+        {active === "evolution" && <EvolutionTab />}
       </div>
     </div>
   );

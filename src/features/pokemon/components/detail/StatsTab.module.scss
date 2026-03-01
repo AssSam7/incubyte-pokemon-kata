@@ -1,7 +1,14 @@
 .container {
+  width: 100%;
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr 360px; /* fixed width right column */
+  gap: 40px;
+  align-items: start;
+}
+
+/* Prevent shrinking */
+.container > * {
+  min-width: 0;
 }
 
 /* LEFT: stats list */

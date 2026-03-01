@@ -23,9 +23,28 @@ export interface PokemonDetails {
   name: string;
   height: number;
   weight: number;
-  types: PokemonType[];
-  abilities: PokemonAbility[];
-  stats: PokemonStat[];
+
+  types: {
+    slot: number;
+    type: {
+      name: string;
+    };
+  }[];
+
+  abilities: {
+    ability: {
+      name: string;
+    };
+    is_hidden: boolean;
+  }[];
+
+  stats: {
+    base_stat: number;
+    stat: {
+      name: string;
+    };
+  }[];
+
   sprites: {
     other?: {
       "official-artwork"?: {

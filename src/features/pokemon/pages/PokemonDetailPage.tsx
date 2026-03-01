@@ -16,9 +16,11 @@ export default function PokemonDetailPage() {
   if (isError || !data) return <p className={styles.state}>Error loading</p>;
 
   return (
-    <div className={styles.container}>
-      <PokemonHero pokemon={data} />
-      <PokemonTabs pokemon={data} />
+    <div className={styles.pageWrapper}>
+      <div className={styles.detailContainer}>
+        <PokemonHero pokemon={data} />
+        <PokemonTabs pokemon={data} />
+      </div>
     </div>
   );
 }

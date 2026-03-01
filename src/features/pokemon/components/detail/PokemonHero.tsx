@@ -77,8 +77,8 @@ export default function PokemonHero({ pokemon }: Props) {
 
         {/* RIGHT */}
         <div className={styles.right}>
-          {/* Atmospheric glow */}
           <div className={`${styles.glow} ${styles[primaryType]}`} />
+          <div className={styles.sparkles} />
 
           <button className={styles.favorite}>
             <Heart size={20} />

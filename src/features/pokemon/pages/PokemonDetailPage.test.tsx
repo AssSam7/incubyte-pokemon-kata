@@ -12,9 +12,35 @@ const server = setupServer(
   http.get("https://pokeapi.co/api/v2/pokemon/:name", ({ params }) => {
     return new Response(
       JSON.stringify({
+        id: 1,
         name: params.name,
         height: 7,
         weight: 69,
+        types: [
+          {
+            slot: 1,
+            type: { name: "grass" },
+          },
+        ],
+        abilities: [
+          {
+            ability: { name: "overgrow" },
+            is_hidden: false,
+          },
+        ],
+        stats: [
+          {
+            base_stat: 45,
+            stat: { name: "hp" },
+          },
+        ],
+        sprites: {
+          other: {
+            "official-artwork": {
+              front_default: "test.png",
+            },
+          },
+        },
       }),
       { status: 200 }
     );

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { PokemonDetails } from "../types/pokemonDetails";
 
 export type EnrichedPokemon = {
   id: number;
@@ -19,10 +20,7 @@ export const pokemonApi = createApi({
     getPokemon: builder.query<{ results: { name: string }[] }, void>({
       query: () => "pokemon",
     }),
-    getPokemonDetails: builder.query<
-      { name: string; height: number; weight: number },
-      string
-    >({
+    getPokemonDetails: builder.query<PokemonDetails, string>({
       query: (name) => `pokemon/${name}`,
     }),
     getPokemonListWithDetails: builder.query<EnrichedPokemon[], void>({

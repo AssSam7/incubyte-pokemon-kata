@@ -1,7 +1,10 @@
 .container {
+  width: 100%;
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 32px;
+
+  min-width: 0; /* IMPORTANT */
 }
 
 /* LEFT SIDE TEXT */
