@@ -7,6 +7,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import pokemonReducer from "../store/pokemonSlice";
 import { pokemonApi } from "../api/pokemonApi";
 import PokemonDetailPage from "./PokemonDetailPage";
+import userEvent from "@testing-library/user-event";
 
 const server = setupServer(
   // Pokemon details
@@ -143,5 +144,100 @@ describe("PokemonDetailPage", () => {
 
     // This will FAIL (because we don't have retry button)
     expect(screen.getByRole("button", { name: /retry/i })).toBeInTheDocument();
+  });
+
+  it("navigates back when back button is clicked", async () => {
+    const store = createTestStore();
+    const user = userEvent.setup();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={["/previous", "/pokemon/bulbasaur"]}
+          initialIndex={1}
+        >
+          <Routes>
+            <Route path="/previous" element={<div>Previous Page</div>} />
+            <Route path="/pokemon/:name" element={<PokemonDetailPage />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByRole("heading", { name: /bulbasaur/i });
+
+    const backButton = screen.getByRole("button", { name: /go back/i });
+    await user.click(backButton);
+
+    expect(await screen.findByText("Previous Page")).toBeInTheDocument();
+  });
+
+  it("renders all tabs and switches between them", async () => {
+    const store = createTestStore();
+    const user = userEvent.setup();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/pokemon/bulbasaur"]}>
+          <Routes>
+            <Route path="/pokemon/:name" element={<PokemonDetailPage />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByRole("heading", { name: /bulbasaur/i });
+
+    expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /stats/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /evolution/i })
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /stats/i }));
+
+    expect(screen.getByText(/battle overview/i)).toBeInTheDocument();
+    expect(screen.getByText(/highest stat/i)).toBeInTheDocument();
+    expect(screen.getByText(/stat distribution/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /evolution/i }));
+
+    expect(
+      await screen.findByText("Evolution chain coming soon...")
+    ).toBeInTheDocument();
+  });
+
+  it("passes species data to about tab", async () => {
+    server.use(
+      http.get("https://pokeapi.co/api/v2/pokemon-species/:name", () => {
+        return new Response(
+          JSON.stringify({
+            flavor_text_entries: [
+              {
+                flavor_text: "A strange seed was planted on its back at birth.",
+                language: { name: "en" },
+              },
+            ],
+          }),
+          { status: 200 }
+        );
+      })
+    );
+
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/pokemon/bulbasaur"]}>
+          <Routes>
+            <Route path="/pokemon/:name" element={<PokemonDetailPage />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByRole("heading", { name: /bulbasaur/i });
+
+    expect(screen.getByText(/strange seed/i)).toBeInTheDocument();
   });
 });

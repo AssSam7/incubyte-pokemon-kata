@@ -12,15 +12,43 @@ export default function PokemonDetailPage() {
   const navigate = useNavigate();
 
   const { data: species } = pokemonApi.useGetPokemonSpeciesQuery(name ?? "");
-  const { data, isError } = pokemonApi.useGetPokemonDetailsQuery(name ?? "");
+  const { data, isError, refetch } = pokemonApi.useGetPokemonDetailsQuery(
+    name ?? ""
+  );
 
-  if (isError) return <p className={styles.state}>Error loading</p>;
+  if (isError)
+    return (
+      <div className={styles.pageWrapper}>
+        <header>
+          <button
+            aria-label="Go back"
+            className={styles.backButton}
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft size={28} />
+          </button>
+          <h1>
+            Pokédex
+            <span className={styles.redDot} />
+          </h1>
+        </header>
+
+        <div className={styles.detailContainer}>
+          <div className={styles.errorState}>
+            <p>Error loading</p>
+            <button className={styles.retryBtn} onClick={() => refetch()}>
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
 
   if (!data)
     return (
       <div className={styles.pageWrapper}>
         <header>
-          <button className={styles.backButton}>
+          <button className={styles.backButton} aria-label="Go back">
             <ArrowLeft size={28} color="#636e72" />
           </button>
           <h1>
@@ -38,7 +66,11 @@ export default function PokemonDetailPage() {
   return (
     <div className={styles.pageWrapper}>
       <header>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
+        <button
+          className={styles.backButton}
+          onClick={() => navigate(-1)}
+          aria-label="Go back"
+        >
           <ArrowLeft size={28} color="#636e72" />
         </button>
         <h1>
