@@ -425,8 +425,6 @@ yarn dev
 
 ## 📸 Screenshots
 
----
-
 ### 🏠 Root / Listing Page
 
 #### Desktop
@@ -488,20 +486,6 @@ yarn dev
 
 ![Details Mobile 1](/docs/details-mobile-1.png)
 ![Details Mobile Stats](/docs/details-mobile-stat.png)
-
----
-
-### 🧩 Initial UX Wireframe
-
-![Base Root Layout](/docs/base-root-list-page.png)
-
----
-
-### Desktop
-
-- List Page
-- Detail Page
-- Mobile View
 
 ---
 
