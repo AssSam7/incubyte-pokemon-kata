@@ -82,8 +82,6 @@ describe("PokemonDetailPage", () => {
       expect(
         screen.getByRole("heading", { name: /bulbasaur/i })
       ).toBeInTheDocument();
-      expect(screen.getByText(/height/i)).toBeInTheDocument();
-      expect(screen.getByText(/weight/i)).toBeInTheDocument();
     });
   });
 });

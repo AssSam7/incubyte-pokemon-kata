@@ -2,6 +2,7 @@ import { Egg, Mars, Venus } from "lucide-react";
 import { PokemonDetails } from "../../types/pokemonDetails";
 import { PokemonSpecies } from "../../types/pokemonSpecies";
 import styles from "./AboutTab.module.scss";
+import StatsBar from "./StatsBar";
 
 type Props = {
   pokemon: PokemonDetails;
@@ -61,10 +62,23 @@ export default function AboutTab({ pokemon, species }: Props) {
   return (
     <div className={styles.container}>
       {/* LEFT CONTENT */}
+
       <div className={styles.left}>
         <p className={styles.description}>{description}</p>
 
-        <h3 className={styles.sectionTitle}>Base Stats</h3>
+        <div className={styles.baseStatsContainer}>
+          <h3 className={styles.sectionTitle}>Base Stats</h3>
+
+          <div className={styles.statsList}>
+            {pokemon.stats.map((stat) => (
+              <StatsBar
+                key={stat.stat.name}
+                label={stat.stat.name}
+                value={stat.base_stat}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* RIGHT BREEDING CARD WITH TOTAL */}

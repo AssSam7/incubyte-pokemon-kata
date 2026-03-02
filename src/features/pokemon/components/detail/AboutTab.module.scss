@@ -1,19 +1,31 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 0.8fr 360px;
+  justify-content: space-between;
   gap: 40px;
 }
 
+/* ===== LEFT ===== */
 .left {
   display: flex;
   flex-direction: column;
 }
 
 .description {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.7;
   color: #5f6678;
   margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+}
+
+.baseStatsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* ===== CARD ===== */
