@@ -1,0 +1,135 @@
+@use "@/styles/mixins" as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  width: 44%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.id {
+  width: 80px;
+  height: 14px;
+  border-radius: 6px;
+  background: #e5e8ef;
+}
+
+.name {
+  width: 260px;
+  height: 48px;
+  border-radius: 10px;
+  background: #e5e8ef;
+}
+
+.types {
+  display: flex;
+  gap: 12px;
+}
+
+.type {
+  width: 80px;
+  height: 28px;
+  border-radius: 999px;
+  background: #e5e8ef;
+}
+
+.infoCard {
+  margin-top: 12px;
+  padding: 20px;
+  border-radius: 20px;
+  background: #eef1f6;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row {
+  height: 20px;
+  border-radius: 6px;
+  background: #e5e8ef;
+}
+
+/* ================= RIGHT ================= */
+
+.right {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.imageGlow {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: #eef1f6;
+  position: absolute;
+}
+
+.image {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: #e5e8ef;
+  position: relative;
+  z-index: 2;
+}
+
+/* ================= TABS ================= */
+
+.tabs {
+  display: flex;
+  gap: 24px;
+}
+
+.tab {
+  width: 120px;
+  height: 28px;
+  border-radius: 999px;
+  background: #e5e8ef;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.block {
+  height: 140px;
+  border-radius: 20px;
+  background: #eef1f6;
+}
+
+/* ================= PULSE ================= */
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 1;
+  }
+}

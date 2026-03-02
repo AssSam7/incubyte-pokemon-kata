@@ -4,19 +4,37 @@ import styles from "./PokemonDetailPage.module.scss";
 
 import PokemonHero from "../components/detail/PokemonHero";
 import PokemonTabs from "../components/detail/PokemonTabs";
+import PokemonDetailSkeleton from "../components/detail/PokemonDetailSkeleton";
 import { ArrowLeft } from "lucide-react";
 
 export default function PokemonDetailPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
 
-  const { data, isLoading, isError } = pokemonApi.useGetPokemonDetailsQuery(
-    name ?? ""
-  );
   const { data: species } = pokemonApi.useGetPokemonSpeciesQuery(name ?? "");
+  const { data, isLoading, isFetching, isError } =
+    pokemonApi.useGetPokemonDetailsQuery(name ?? "");
 
-  if (isLoading) return <p className={styles.state}>Loading...</p>;
-  if (isError || !data) return <p className={styles.state}>Error loading</p>;
+  if (isError) return <p className={styles.state}>Error loading</p>;
+
+  if (!data)
+    return (
+      <div className={styles.pageWrapper}>
+        <header>
+          <button className={styles.backButton}>
+            <ArrowLeft size={28} color="#636e72" />
+          </button>
+          <h1>
+            Pokédex
+            <span className={styles.redDot} />
+          </h1>
+        </header>
+
+        <div className={styles.detailContainer}>
+          <PokemonDetailSkeleton />
+        </div>
+      </div>
+    );
 
   return (
     <div className={styles.pageWrapper}>
