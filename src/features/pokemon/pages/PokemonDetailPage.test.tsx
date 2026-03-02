@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { setupServer } from "msw/node";
@@ -9,6 +9,7 @@ import { pokemonApi } from "../api/pokemonApi";
 import PokemonDetailPage from "./PokemonDetailPage";
 
 const server = setupServer(
+  // Pokemon details
   http.get("https://pokeapi.co/api/v2/pokemon/:name", ({ params }) => {
     return new Response(
       JSON.stringify({
@@ -16,12 +17,7 @@ const server = setupServer(
         name: params.name,
         height: 7,
         weight: 69,
-        types: [
-          {
-            slot: 1,
-            type: { name: "grass" },
-          },
-        ],
+        types: [{ slot: 1, type: { name: "grass" } }],
         abilities: [
           {
             ability: { name: "overgrow" },
@@ -33,6 +29,10 @@ const server = setupServer(
             base_stat: 45,
             stat: { name: "hp" },
           },
+          {
+            base_stat: 49,
+            stat: { name: "attack" },
+          },
         ],
         sprites: {
           other: {
@@ -41,6 +41,16 @@ const server = setupServer(
             },
           },
         },
+      }),
+      { status: 200 }
+    );
+  }),
+
+  // Pokemon species (new dependency)
+  http.get("https://pokeapi.co/api/v2/pokemon-species/:name", () => {
+    return new Response(
+      JSON.stringify({
+        flavor_text_entries: [],
       }),
       { status: 200 }
     );
@@ -62,6 +72,29 @@ function createTestStore() {
 }
 
 describe("PokemonDetailPage", () => {
+  it("shows error state when API fails", async () => {
+    server.use(
+      http.get("https://pokeapi.co/api/v2/pokemon/:name", () => {
+        return new Response(null, { status: 500 });
+      })
+    );
+
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/pokemon/bulbasaur"]}>
+          <Routes>
+            <Route path="/pokemon/:name" element={<PokemonDetailPage />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(await screen.findByText(/error loading/i)).toBeInTheDocument();
+  });
+
+  // SUCCESS FLOW
   it("fetches and displays pokemon details", async () => {
     const store = createTestStore();
 
@@ -75,13 +108,40 @@ describe("PokemonDetailPage", () => {
       </Provider>
     );
 
-    // Loading state
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    // Skeleton appears first
+    expect(screen.getByTestId("detail-skeleton")).toBeInTheDocument();
 
-    await waitFor(() => {
-      expect(
-        screen.getByRole("heading", { name: /bulbasaur/i })
-      ).toBeInTheDocument();
-    });
+    // Then actual content renders
+    expect(
+      await screen.findByRole("heading", { name: /bulbasaur/i })
+    ).toBeInTheDocument();
+
+    // Extra verification (robust test)
+    expect(screen.getByText(/overgrow/i)).toBeInTheDocument();
+  });
+
+  it("shows retry button when request fails", async () => {
+    server.use(
+      http.get("https://pokeapi.co/api/v2/pokemon/:name", () => {
+        return new Response(null, { status: 500 });
+      })
+    );
+
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/pokemon/bulbasaur"]}>
+          <Routes>
+            <Route path="/pokemon/:name" element={<PokemonDetailPage />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(await screen.findByText(/error loading/i)).toBeInTheDocument();
+
+    // This will FAIL (because we don't have retry button)
+    expect(screen.getByRole("button", { name: /retry/i })).toBeInTheDocument();
   });
 });

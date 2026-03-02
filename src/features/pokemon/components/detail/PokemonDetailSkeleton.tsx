@@ -2,7 +2,7 @@ import styles from "./PokemonDetailSkeleton.module.scss";
 
 export default function PokemonDetailSkeleton() {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-testid="detail-skeleton">
       {/* HERO SECTION */}
       <div className={styles.hero}>
         <div className={styles.left}>
