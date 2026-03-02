@@ -64,7 +64,7 @@ export default function BattleOverview({ stats }: Props) {
             dataKey="subject"
             tick={{
               fill: "#5E6478",
-              fontSize: 15,
+              fontSize: 11,
               fontWeight: 500,
             }}
           />
