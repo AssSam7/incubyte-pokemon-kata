@@ -138,7 +138,7 @@ export default function ActionToolbar() {
       </div>
 
       {/* ACTION BUTTONS */}
-      <div className={styles.filterGroup}>
+      <div className={[styles.filterGroup, styles.actionBtns].join(" ")}>
         <button
           className={styles.resetBtn}
           onClick={() => dispatch(resetFilters())}

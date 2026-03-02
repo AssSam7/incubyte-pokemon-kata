@@ -12,6 +12,10 @@ $color-text-secondary: #64748b;
 
 $color-border: #e2e8f0;
 
+// Responsive Breakpoints
+$bp-tablet: 1024px;
+$bp-mobile: 768px;
+
 // Typography
 $font-family-base: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
   sans-serif;

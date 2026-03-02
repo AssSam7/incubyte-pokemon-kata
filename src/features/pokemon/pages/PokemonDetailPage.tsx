@@ -12,8 +12,7 @@ export default function PokemonDetailPage() {
   const navigate = useNavigate();
 
   const { data: species } = pokemonApi.useGetPokemonSpeciesQuery(name ?? "");
-  const { data, isLoading, isFetching, isError } =
-    pokemonApi.useGetPokemonDetailsQuery(name ?? "");
+  const { data, isError } = pokemonApi.useGetPokemonDetailsQuery(name ?? "");
 
   if (isError) return <p className={styles.state}>Error loading</p>;
 
