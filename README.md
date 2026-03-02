@@ -20,7 +20,103 @@ This project demonstrates engineering discipline rather than just feature implem
 
 ---
 
-## 🧠 Core Engineering Focus
+## 🏳️‍🌈 UX Design
+
+The UI/UX for this project was not randomly assembled — it was intentionally crafted through iterative AI-assisted design exploration.
+
+I collaborated extensively with AI to:
+
+- Explore multiple visual directions
+- Refine spacing, typography, hierarchy, and layout balance
+- Improve visual consistency across pages
+- Align UI polish with modern product standards
+
+For this, I have researched through multiple existing UI apps consuming the **pokeapi** and tried the best to create a unique one and explore multiple APIs rather than standard listing and details APIs.
+
+This process involved **multiple iterations across both List and Detail views**, focusing on:
+
+- Visual weight distribution
+- Frosted glass + soft-shadow design language
+- Gradient balance for stats visualization
+- Badge color harmony per Pokémon type
+- Readability and content hierarchy
+- Mobile-first responsive refinement
+
+Rather than accepting the first output, we iterated several times to achieve:
+
+- A clean, premium Pokédex aesthetic
+- Cohesive glassmorphism-inspired components
+- Strong visual focus on hero elements
+- Clear separation between informational sections
+- Consistent spacing rhythm across breakpoints
+
+The final UI reflects deliberate UX refinement rather than template-driven design.
+
+---
+
+### Initial Root Layout UX Design
+
+![Inital Root Layout](/docs/base-root-list-page.png)
+
+This was the starting structure — establishing:
+
+- Layout framing
+- Search placement
+- Primary visual hierarchy
+
+---
+
+### Listing Page Filters (Active State)
+
+![List Filters Active](/docs/list-filters-active.png)
+
+Iteration focused on:
+
+- Filter discoverability
+- Active state clarity
+- Visual feedback strength
+- Improving button ergonomics
+
+---
+
+### Listing Page Filters Final Version
+
+![List Filters Final Version](/docs/list-filters-iteration-2.png)
+
+Refined for:
+
+- Better spacing rhythm
+- Improved contrast
+- Reduced visual noise
+- Cleaner micro-interactions
+
+---
+
+### Initial Details Page
+
+![Initial Details Page](/docs/product-details-pokemon.png)
+
+First iteration of:
+
+- Hero layout
+- Glow background system
+- Info card positioning
+- Stat distribution layout
+
+---
+
+### Pokemon Details Page (Stats Tab)
+
+![Pokemon Details Page](/docs/pokemon-details-statstab.png)
+
+Final refinement included:
+
+- Multi-layer radar visualization
+- Balanced card grouping
+- Improved visual grouping of stat insights
+- Responsive alignment for tablet and mobile
+
+---
 
 ## ✅ Test-Driven Development (TDD)
 
@@ -268,14 +364,30 @@ SCSS Modules chosen for:
 
 ## 🤖 AI Usage
 
-AI was used for:
+AI was used as a collaborative assistant throughout this project — primarily as a productivity and design accelerator, not as an autonomous code generator.
 
-- Architectural validation
-- Refactoring suggestions
-- Test coverage improvement ideas
-- Minor SCSS refinements
+It was leveraged for:
 
-All implementation logic, structure, debugging, and integration decisions were manually designed and implemented.
+- UX exploration and iterative visual refinement
+- Initial project scaffolding ideas
+- Structuring and planning the RED → GREEN → REFACTOR TDD workflow
+- Identifying meaningful test cases and missing edge cases
+- Suggesting improvements to SCSS (gradients, glassmorphism layers, visual polish)
+- Evaluating folder structure and component grouping strategies
+- Reviewing written code to suggest refactoring opportunities
+- Creating the Final README, and adding necessary comments on existing files to improve readability and maintenance
+
+However:
+
+- All architectural decisions were consciously made.
+- Business logic and data modeling were implemented manually.
+- API integration logic and RTK Query configuration were hand-written.
+- Debugging, layout fixes, responsive behavior, and chart rendering issues were manually diagnosed and resolved with minimal AI assisstance.
+- Test structure, intent, and assertions were validated and refined deliberately.
+
+AI functioned as a collaborative engineering assistant — not as a replacement for understanding, reasoning, or system design.
+
+The final implementation reflects deliberate decision-making, TDD discipline, and production-oriented frontend engineering practices.
 
 ---
 
@@ -288,18 +400,24 @@ git clone
 cd incubyte-pokemon-kata
 ```
 
+### Install dependencies
+
 ```bash
-## Install dependencies
+
 yarn install
 ```
 
+### Run the tests
+
 ```bash
-## Run the tests
+
 yarn test
 ```
 
+### Start the development server
+
 ```bash
-## Start the development server
+
 yarn dev
 ```
 
@@ -307,7 +425,79 @@ yarn dev
 
 ## 📸 Screenshots
 
-_Add screenshots here_
+---
+
+### 🏠 Root / Listing Page
+
+#### Desktop
+
+![Root Desktop 1](/docs/root-desktop-1.png)
+![Root Desktop 2](/docs/root-desktop-2.png)
+![Root Desktop 3](/docs/root-desktop-3.png)
+
+#### Search States
+
+![Root Desktop Search](/docs/root-desktop-search.png)
+![Root Desktop No Search](/docs/root-desktop-nosearch.png)
+
+#### Type & Ability Highlight
+
+![Root Desktop Type](/docs/root-desktop-type.png)
+![Root Desktop Ability](/docs/root-desktop-ability.png)
+![Root Desktop Height](/docs/root-desktop-height.png)
+
+---
+
+### 🔎 Filters & Sorting
+
+![Filters Active](/docs/list-filters-active.png)
+![Filters Final Iteration](/docs/list-filters-iteration-2.png)
+![Sort By Active](/docs/root-filters-sortby-active.png)
+![Pokemon Not Found Filters](/docs/root-pokemon-not-found-filters.png)
+
+---
+
+### 📄 Details Page
+
+#### Desktop
+
+![Details Desktop 1](/docs/details-desktop-1.png)
+![Details Desktop 2](/docs/details-desktop-2.png)
+![Details Stats Desktop](/docs/details-stat-desktop.png)
+![Details Evolution Desktop](/docs/details-desktop-evolution.png)
+
+#### Initial Design Iterations
+
+![Initial Details Design](/docs/product-details-pokemon.png)
+![Stats Tab Iteration](/docs/pokemon-details-statstab.png)
+
+---
+
+### 📱 Responsive Views
+
+#### Tablet
+
+![Root Tablet](/docs/root-tablet-1.png)
+
+#### Mobile – Root
+
+![Root Mobile 1](/docs/root-mobile-1.png)
+![Root Mobile 2](/docs/root-mobile-2.png)
+
+#### Mobile – Details
+
+![Details Mobile 1](/docs/details-mobile-1.png)
+![Details Mobile Stats](/docs/details-mobile-stat.png)
+
+---
+
+### 🧩 Initial UX Wireframe
+
+![Base Root Layout](/docs/base-root-list-page.png)
+
+---
+
+### Desktop
 
 - List Page
 - Detail Page
@@ -319,7 +509,7 @@ _Add screenshots here_
 
 Live URL:
 
-👉 **[ADD_LIVE_URL_HERE]**
+👉 **[https://incubyte-pokemon-kata.vercel.app/]**
 
 ---
 
