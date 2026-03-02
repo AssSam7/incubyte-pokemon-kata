@@ -6,6 +6,7 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts";
+import { STATS_COLORS as COLORS } from "@/constants";
 import styles from "./BattleOverview.module.scss";
 
 type Stat = {
@@ -24,15 +25,6 @@ const LABEL_MAP: Record<string, string> = {
   "special-attack": "Sp. Atk",
   "special-defense": "Sp. Def",
   speed: "Speed",
-};
-
-const COLORS: Record<string, string> = {
-  hp: "#4CAF50",
-  attack: "#FF9800",
-  defense: "#4A90E2",
-  "special-attack": "#9C27B0",
-  "special-defense": "#EC407A",
-  speed: "#26C6DA",
 };
 
 export default function BattleOverview({ stats }: Props) {

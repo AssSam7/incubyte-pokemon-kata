@@ -1,3 +1,7 @@
+@use "@/styles/variables" as *;
+
+/* ================= HERO ================= */
+
 .hero {
   position: relative;
 }
@@ -46,23 +50,6 @@
   font-weight: 600;
   text-transform: uppercase;
   color: white;
-}
-
-/* Type colors */
-.grass {
-  background: #66bb6a;
-}
-
-.fire {
-  background: #ff7043;
-}
-
-.water {
-  background: #42a5f5;
-}
-
-.poison {
-  background: #ab47bc;
 }
 
 /* ================= INFO CARD ================= */
@@ -129,7 +116,7 @@
   align-items: center;
 }
 
-/* ===== BASE RADIAL GLOW ===== */
+/* ================= GLOW ================= */
 
 .glow {
   position: absolute;
@@ -142,45 +129,31 @@
   z-index: 0;
 }
 
-/* Type glow colors */
+/* 🔥 AUTO-GENERATED GLOW FOR ALL TYPES */
 
-.glow.grass {
-  background: radial-gradient(
-    circle,
-    rgba(102, 187, 106, 0.5) 0%,
-    rgba(102, 187, 106, 0.25) 40%,
-    transparent 75%
-  );
+@each $type, $styles in $pokemon-type-styles {
+  .glow.#{$type} {
+    $bg-color: map-get($styles, bg);
+
+    background: radial-gradient(
+      circle,
+      rgba($bg-color, 0.55) 0%,
+      rgba($bg-color, 0.28) 40%,
+      rgba($bg-color, 0.12) 65%,
+      transparent 80%
+    );
+  }
+
+  .#{$type} {
+    $bg-color: map-get($styles, bg);
+    $text-color: map-get($styles, text);
+
+    background-color: $bg-color;
+    color: $text-color;
+  }
 }
 
-.glow.fire {
-  background: radial-gradient(
-    circle,
-    rgba(255, 112, 67, 0.5) 0%,
-    rgba(255, 112, 67, 0.25) 40%,
-    transparent 75%
-  );
-}
-
-.glow.water {
-  background: radial-gradient(
-    circle,
-    rgba(66, 165, 245, 0.5) 0%,
-    rgba(66, 165, 245, 0.25) 40%,
-    transparent 75%
-  );
-}
-
-.glow.poison {
-  background: radial-gradient(
-    circle,
-    rgba(171, 71, 188, 0.5) 0%,
-    rgba(171, 71, 188, 0.25) 40%,
-    transparent 75%
-  );
-}
-
-/* ===== SPARKLES LAYER ===== */
+/* ================= SPARKLES ================= */
 
 .sparkles {
   position: absolute;
@@ -218,11 +191,10 @@
       transparent 5px
     );
 
-  opacity: 1;
   animation: sparkleFloat 2s ease-in-out infinite alternate;
 }
 
-/* ===== IMAGE ===== */
+/* ================= IMAGE ================= */
 
 .image {
   width: 320px;
@@ -231,7 +203,7 @@
   filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.25));
 }
 
-/* ===== FAVORITE BUTTON ===== */
+/* ================= FAVORITE ================= */
 
 .favorite {
   position: absolute;
@@ -247,7 +219,7 @@
   cursor: pointer;
 }
 
-/* ===== FLOAT ANIMATION ===== */
+/* ================= ANIMATION ================= */
 
 @keyframes sparkleFloat {
   0% {

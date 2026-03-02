@@ -1,9 +1,17 @@
+import { STATS_COLORS } from "@/constants";
 import { PokemonDetails } from "../../types/pokemonDetails";
 import BattleOverview from "./BattleOverview";
+import HighestStatCard from "./HighestStatCard";
+import StatDistributionCard from "./StatDistributionCard";
 
 import styles from "./StatsTab.module.scss";
 
 export default function StatsTab({ pokemon }: { pokemon: PokemonDetails }) {
+  const formattedStats = pokemon.stats.map((s) => ({
+    name: s.stat.name,
+    value: s.base_stat,
+  }));
+
   return (
     <div className={styles.container}>
       {/* LEFT SIDE */}
@@ -20,6 +28,10 @@ export default function StatsTab({ pokemon }: { pokemon: PokemonDetails }) {
       </div>
 
       {/* RIGHT SIDE */}
+      <div>
+        <HighestStatCard stats={formattedStats} COLORS={STATS_COLORS} />
+        <StatDistributionCard stats={formattedStats} COLORS={STATS_COLORS} />
+      </div>
     </div>
   );
 }
