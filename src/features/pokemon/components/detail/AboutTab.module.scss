@@ -1,3 +1,5 @@
+@use "@/styles/variables" as *;
+
 .container {
   display: grid;
   grid-template-columns: 0.8fr 360px;
@@ -227,4 +229,81 @@
     #e05273 75%,
     #f59e42 100%
   );
+}
+
+/* ====== TABLET ====== */
+@media (max-width: $bp-tablet) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .right {
+    order: 2;
+  }
+
+  .breedingCard {
+    padding: 28px;
+    border-radius: 26px;
+  }
+
+  .cardTitle {
+    font-size: 22px;
+  }
+
+  .totalCard {
+    padding: 20px 22px;
+    border-radius: 22px;
+  }
+}
+
+/* ======= MOBILE ====== */
+@media (max-width: $bp-mobile) {
+  .container {
+    gap: 24px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  .sectionTitle {
+    font-size: 18px;
+  }
+
+  .breedingCard {
+    padding: 20px;
+    gap: 22px;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .eggGroups {
+    flex-wrap: wrap;
+  }
+
+  .eggBadge {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .genderItem {
+    font-size: 16px;
+  }
+
+  .totalLabel {
+    font-size: 16px;
+  }
+
+  .totalValue {
+    font-size: 24px;
+  }
+
+  .totalBarTrack {
+    height: 12px;
+  }
 }

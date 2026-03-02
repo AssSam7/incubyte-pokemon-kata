@@ -78,6 +78,7 @@
 /* ================= MOBILE ================= */
 @media (max-width: $bp-mobile) {
   .toolbar {
+    width: 85%;
     grid-template-columns: 1fr;
   }
 

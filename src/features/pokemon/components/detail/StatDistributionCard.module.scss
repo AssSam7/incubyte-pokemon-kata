@@ -1,3 +1,5 @@
+@use "@/styles/variables" as *;
+
 .card {
   margin-top: 26px;
   background: rgba(255, 255, 255, 0.82);
@@ -21,6 +23,10 @@
   grid-template-columns: 0.9fr 0.9fr;
   justify-content: space-between;
   gap: 12px;
+
+  @media (max-width: $bp-mobile) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stat {

@@ -1,4 +1,4 @@
-import { Heart, Ruler, Weight, Sparkles, Eye } from "lucide-react";
+import { Ruler, Weight, Sparkles, Eye } from "lucide-react";
 import styles from "./PokemonHero.module.scss";
 import { PokemonDetails } from "../../types/pokemonDetails";
 
@@ -79,10 +79,6 @@ export default function PokemonHero({ pokemon }: Props) {
         <div className={styles.right}>
           <div className={`${styles.glow} ${styles[primaryType]}`} />
           <div className={styles.sparkles} />
-
-          <button className={styles.favorite}>
-            <Heart size={20} />
-          </button>
 
           {officialArtwork && (
             <img

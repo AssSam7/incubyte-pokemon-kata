@@ -1,3 +1,5 @@
+@use "@/styles/variables" as *;
+
 .card {
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(30px);
@@ -82,4 +84,69 @@
   color: #2f3445;
 
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ================= TABLET ================= */
+@media (max-width: $bp-tablet) {
+  .card {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .row {
+    gap: 12px;
+  }
+
+  .pill {
+    height: 50px;
+  }
+
+  .value {
+    height: 40px;
+    width: 50px;
+    font-size: 18px;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: $bp-mobile) {
+  .card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .title {
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  /* STACK pills vertically */
+  .row {
+    gap: 14px;
+  }
+
+  .pill {
+    height: 48px;
+  }
+
+  .leftColorWrapper {
+    width: calc(100% - 40px);
+  }
+
+  .leftColorLabel {
+    font-size: 13px;
+    padding-left: 16px;
+  }
+
+  .value {
+    height: 38px;
+    width: 48px;
+    font-size: 16px;
+    right: 5px;
+  }
 }
