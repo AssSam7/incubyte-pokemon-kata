@@ -1,7 +1,7 @@
 import { Check, ChevronDown } from "lucide-react";
 import styles from "./Select.module.scss";
 import { ReactNode, useEffect, useRef } from "react";
-import { SelectOption } from "../types/filters";
+import { SelectOption } from "../../types/filters";
 
 type Props = {
   icon?: ReactNode;

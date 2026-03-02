@@ -4,8 +4,8 @@ import styles from "./PokemonTabs.module.scss";
 import AboutTab from "./AboutTab";
 import StatsTab from "./StatsTab";
 import EvolutionTab from "./EvolutionTab";
-import { PokemonDetails } from "../../types/pokemonDetails";
-import { PokemonSpecies } from "../../types/pokemonSpecies";
+import { PokemonDetails } from "../../../types/pokemonDetails";
+import { PokemonSpecies } from "../../../types/pokemonSpecies";
 
 type Props = {
   pokemon: PokemonDetails;

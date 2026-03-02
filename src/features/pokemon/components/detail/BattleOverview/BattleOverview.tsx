@@ -19,6 +19,18 @@ type Props = {
   stats: Stat[];
 };
 
+/**
+ * Chart datum type:
+ * - Fixed known keys
+ * - Dynamic axis_N keys
+ */
+type ChartDatum = {
+  subject: string;
+  value: number;
+  midLayer: number;
+  statKey: string;
+} & Record<string, number | string>;
+
 const LABEL_MAP: Record<string, string> = {
   hp: "HP",
   attack: "Attack",
@@ -32,27 +44,28 @@ export default function BattleOverview({ stats }: Props) {
   const [ready, setReady] = useState(false);
   const maxOuter = 140;
 
+  // Prevents width/height 0 issue in StrictMode
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       setReady(true);
     });
-
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const data = stats.map((s, index) => {
-    const base: any = {
-      subject: LABEL_MAP[s.name],
-      value: s.value,
-      midLayer: s.value * 0.85,
-      statKey: s.name,
+  const data: ChartDatum[] = stats.map((stat, index) => {
+    const datum: ChartDatum = {
+      subject: LABEL_MAP[stat.name] ?? stat.name,
+      value: stat.value,
+      midLayer: stat.value * 0.85,
+      statKey: stat.name,
     };
 
+    // Create axis lines dynamically
     stats.forEach((_, i) => {
-      base[`axis_${i}`] = i === index ? maxOuter : 0;
+      datum[`axis_${i}`] = i === index ? maxOuter : 0;
     });
 
-    return base;
+    return datum;
   });
 
   return (
@@ -73,17 +86,19 @@ export default function BattleOverview({ stats }: Props) {
 
             <PolarRadiusAxis domain={[0, 150]} tick={false} axisLine={false} />
 
-            {stats.map((s, index) => (
+            {/* Static colored axis lines */}
+            {stats.map((stat, index) => (
               <Radar
-                key={s.name}
+                key={stat.name}
                 dataKey={`axis_${index}`}
-                stroke={COLORS[s.name]}
+                stroke={COLORS[stat.name]}
                 strokeWidth={2}
                 fill="none"
                 isAnimationActive={false}
               />
             ))}
 
+            {/* Static mid layer */}
             <Radar
               dataKey="midLayer"
               stroke="none"
@@ -92,6 +107,7 @@ export default function BattleOverview({ stats }: Props) {
               isAnimationActive={false}
             />
 
+            {/* Gradient definition */}
             <defs>
               <linearGradient
                 id="mainGradient"
@@ -109,15 +125,21 @@ export default function BattleOverview({ stats }: Props) {
               </linearGradient>
             </defs>
 
+            {/* Main animated polygon */}
             <Radar
               dataKey="value"
               stroke="#6C63FF"
               strokeWidth={3}
               fill="url(#mainGradient)"
+              animationDuration={800}
               dot={({ payload, cx, cy }) => (
-                <circle cx={cx} cy={cy} r={7} fill={COLORS[payload.statKey]} />
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r={7}
+                  fill={COLORS[payload.statKey as string]}
+                />
               )}
-              isAnimationActive={false}
             />
           </RadarChart>
         </ResponsiveContainer>

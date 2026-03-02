@@ -1,10 +1,12 @@
 import { pokemonApi } from "../api/pokemonApi";
 import styles from "./PokemonListPage.module.scss";
 import { Search } from "lucide-react";
-import { PokemonList } from "../components";
-import PokemonListSkeleton from "../components/PokemonListSkeleton";
-import EmptyState from "../components/EmptyState";
-import ActionToolbar from "../components/ActionToolbar";
+import {
+  PokemonList,
+  PokemonListSkeleton,
+  EmptyState,
+  ActionToolbar,
+} from "../components";
 
 import { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";

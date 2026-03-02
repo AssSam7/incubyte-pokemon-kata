@@ -1,2 +1,4 @@
-export { default as PokemonList } from "./PokemonList";
-export { default as PokemonCard } from "./PokemonCard";
+export * from "./list";
+export * from "./filters";
+export * from "./ui";
+export * from "./detail";

@@ -3,8 +3,8 @@ import { pokemonApi } from "../api/pokemonApi";
 import styles from "./PokemonDetailPage.module.scss";
 
 import PokemonHero from "../components/detail/PokemonHero";
-import PokemonTabs from "../components/detail/PokemonTabs";
-import PokemonDetailSkeleton from "../components/detail/PokemonDetailSkeleton";
+import PokemonTabs from "../components/detail/Tabs/PokemonTabs";
+import PokemonDetailSkeleton from "../components/detail/PokemonDetailSkeleton/PokemonDetailSkeleton";
 import { ArrowLeft } from "lucide-react";
 
 export default function PokemonDetailPage() {

@@ -1,8 +1,8 @@
 import { Egg, Mars, Venus } from "lucide-react";
-import { PokemonDetails } from "../../types/pokemonDetails";
-import { PokemonSpecies } from "../../types/pokemonSpecies";
+import { PokemonDetails } from "../../../types/pokemonDetails";
+import { PokemonSpecies } from "../../../types/pokemonSpecies";
 import styles from "./AboutTab.module.scss";
-import StatsBar from "./StatsBar";
+import StatsBar from "../StatsBar/StatsBar";
 
 type Props = {
   pokemon: PokemonDetails;

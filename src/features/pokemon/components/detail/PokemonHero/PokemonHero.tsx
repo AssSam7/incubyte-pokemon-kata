@@ -1,6 +1,6 @@
 import { Ruler, Weight, Sparkles, Eye } from "lucide-react";
 import styles from "./PokemonHero.module.scss";
-import { PokemonDetails } from "../../types/pokemonDetails";
+import { PokemonDetails } from "../../../types/pokemonDetails";
 
 type Props = {
   pokemon: PokemonDetails;

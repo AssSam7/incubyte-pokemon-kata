@@ -1,8 +1,8 @@
 import { STATS_COLORS } from "@/constants";
-import { PokemonDetails } from "../../types/pokemonDetails";
-import BattleOverview from "./BattleOverview";
-import HighestStatCard from "./HighestStatCard";
-import StatDistributionCard from "./StatDistributionCard";
+import { PokemonDetails } from "../../../types/pokemonDetails";
+import BattleOverview from "../BattleOverview/BattleOverview";
+import HighestStatCard from "../HighestStatCard/HighestStatCard";
+import StatDistributionCard from "../StatDistributionCard/StatDistributionCard";
 
 import styles from "./StatsTab.module.scss";
 

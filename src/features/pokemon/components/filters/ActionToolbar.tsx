@@ -3,8 +3,8 @@ import styles from "./ActionToolbar.module.scss";
 import Select from "./Select";
 import { ArrowUpDown, BookType, Ruler, Sparkles } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { clearAllFilters, resetFilters, setFilters } from "../store/uiSlice";
-import { FilterKey, SelectOption } from "../types/filters";
+import { clearAllFilters, resetFilters, setFilters } from "../../store/uiSlice";
+import { FilterKey, SelectOption } from "../../types/filters";
 
 const filterOptions: Record<FilterKey, SelectOption[]> = {
   sortBy: [
