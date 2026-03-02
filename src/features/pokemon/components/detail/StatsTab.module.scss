@@ -6,19 +6,15 @@
   align-items: start;
 }
 
-/* Prevent shrinking */
-.container > * {
-  min-width: 0;
+/* LEFT CONTAINER */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* LEFT: stats list */
-
-.statsList {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 28px;
-  border-radius: 28px;
-  backdrop-filter: blur(12px);
-
-  box-shadow: 0 12px 30px rgba(31, 42, 68, 0.06),
-    0 2px 6px rgba(31, 42, 68, 0.04);
+.battleOverviewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }

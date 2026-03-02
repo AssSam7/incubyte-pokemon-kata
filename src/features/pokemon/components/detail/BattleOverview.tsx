@@ -1,0 +1,126 @@
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from "recharts";
+import styles from "./BattleOverview.module.scss";
+
+type Stat = {
+  name: string;
+  value: number;
+};
+
+type Props = {
+  stats: Stat[];
+};
+
+const LABEL_MAP: Record<string, string> = {
+  hp: "HP",
+  attack: "Attack",
+  defense: "Defense",
+  "special-attack": "Sp. Atk",
+  "special-defense": "Sp. Def",
+  speed: "Speed",
+};
+
+const COLORS: Record<string, string> = {
+  hp: "#4CAF50",
+  attack: "#FF9800",
+  defense: "#4A90E2",
+  "special-attack": "#9C27B0",
+  "special-defense": "#EC407A",
+  speed: "#26C6DA",
+};
+
+export default function BattleOverview({ stats }: Props) {
+  const maxOuter = 140;
+
+  const data = stats.map((s, index) => {
+    const base: any = {
+      subject: LABEL_MAP[s.name],
+      value: s.value,
+      midLayer: s.value * 0.85,
+      statKey: s.name, // 👈 store key safely
+    };
+
+    stats.forEach((_, i) => {
+      base[`axis_${i}`] = i === index ? maxOuter : 0;
+    });
+
+    return base;
+  });
+
+  return (
+    <div className={styles.card}>
+      <ResponsiveContainer width="100%" aspect={1}>
+        <RadarChart data={data} cx="50%" cy="50%" outerRadius="82%">
+          {/* GRID */}
+          <PolarGrid stroke="rgba(0,0,0,0.12)" />
+
+          <PolarAngleAxis
+            dataKey="subject"
+            tick={{
+              fill: "#5E6478",
+              fontSize: 15,
+              fontWeight: 500,
+            }}
+          />
+
+          <PolarRadiusAxis domain={[0, 150]} tick={false} axisLine={false} />
+
+          {/* COLORED OUTER AXIS LINES */}
+          {stats.map((s, index) => (
+            <Radar
+              key={s.name}
+              dataKey={`axis_${index}`}
+              stroke={COLORS[s.name]}
+              strokeWidth={2}
+              fill="none"
+              isAnimationActive={false}
+            />
+          ))}
+
+          {/* MID LAYER */}
+          <Radar
+            dataKey="midLayer"
+            stroke="none"
+            fill="#6C63FF"
+            fillOpacity={0.15}
+          />
+
+          {/* MULTI-COLOR GRADIENT */}
+          <defs>
+            <linearGradient
+              id="mainGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#4CAF50" />
+              <stop offset="20%" stopColor="#FF9800" />
+              <stop offset="40%" stopColor="#4A90E2" />
+              <stop offset="60%" stopColor="#9C27B0" />
+              <stop offset="80%" stopColor="#EC407A" />
+              <stop offset="100%" stopColor="#26C6DA" />
+            </linearGradient>
+          </defs>
+
+          {/* MAIN POLYGON */}
+          <Radar
+            dataKey="value"
+            stroke="#6C63FF"
+            strokeWidth={3}
+            fill="url(#mainGradient)"
+            dot={({ payload, cx, cy }) => (
+              <circle cx={cx} cy={cy} r={7} fill={COLORS[payload.statKey]} />
+            )}
+          />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
