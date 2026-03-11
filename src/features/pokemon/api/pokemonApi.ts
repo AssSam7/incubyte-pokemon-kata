@@ -24,10 +24,16 @@ export const pokemonApi = createApi({
     getPokemonDetails: builder.query<PokemonDetails, string>({
       query: (name) => `pokemon/${name}`,
     }),
-    getPokemonListWithDetails: builder.query<EnrichedPokemon[], void>({
+    getPokemonListWithDetails: builder.query<
+      EnrichedPokemon[],
+      { offset: string }
+    >({
       async queryFn(_arg, _queryApi, _extraOptions, baseQuery) {
+        console.log("Arguments are: ", _arg);
         // 1️⃣ Fetch list
-        const listResult = await baseQuery("https://pokeapi.co/api/v2/pokemon");
+        const listResult = await baseQuery(
+          `https://pokeapi.co/api/v2/pokemon?offset=${_arg.offset}&limit=20`
+        );
 
         if (listResult.error) {
           return { error: listResult.error };

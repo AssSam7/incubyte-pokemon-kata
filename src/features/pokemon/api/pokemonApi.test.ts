@@ -90,7 +90,7 @@ describe("pokemonApi", () => {
     });
 
     const result = await store.dispatch(
-      pokemonApi.endpoints.getPokemonListWithDetails.initiate(undefined)
+      pokemonApi.endpoints.getPokemonListWithDetails.initiate({ offset: "0" })
     );
 
     expect(result.data).toBeDefined();

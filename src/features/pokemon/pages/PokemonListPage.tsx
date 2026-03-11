@@ -19,7 +19,9 @@ export default function PokemonListPage() {
 
   const filters = useAppSelector((state) => state.pokemonUI.filters);
 
-  const { data, isLoading } = pokemonApi.useGetPokemonListWithDetailsQuery();
+  const { data, isLoading } = pokemonApi.useGetPokemonListWithDetailsQuery({
+    offset: "40",
+  });
 
   const processedList = useMemo(() => {
     if (!data) return [];
