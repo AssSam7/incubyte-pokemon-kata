@@ -113,7 +113,7 @@ describe("PokemonListPage - enriched list", () => {
 
     await user.type(input, "Bul");
 
-    expect(await screen.findByText("Bulbasaur")).toBeInTheDocument();
+    expect(screen.getAllByText("Bulbasaur")).toHaveLength(1);
     expect(screen.queryByText("Charmander")).not.toBeInTheDocument();
   });
 

@@ -124,6 +124,13 @@
   }
 }
 
+.bottomLoader {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 /* TABLET RESPONSIVENESS */
 
 @media (max-width: $bp-tablet) {

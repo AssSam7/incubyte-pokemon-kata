@@ -4,13 +4,13 @@ import { Filters, FilterKey, initialFilters } from "../types/filters";
 type PokemonUIState = {
   searchText: string;
   filters: Filters;
-  pageOffset: string;
+  pageOffset: number;
 };
 
 const initialState: PokemonUIState = {
   searchText: "",
   filters: initialFilters,
-  pageOffset: "0",
+  pageOffset: 0,
 };
 
 const pokemonUISlice = createSlice({
@@ -26,7 +26,7 @@ const pokemonUISlice = createSlice({
     ) {
       state.filters[action.payload.key] = action.payload.value;
     },
-    setPageOffset(state, action: PayloadAction<string>) {
+    setPageOffset(state, action: PayloadAction<number>) {
       state.pageOffset = action.payload;
     },
     resetFilters(state) {

@@ -1,6 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { pokemonApi } from "../api/pokemonApi";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useCallback } from "react";
+import throttle from "@/utils/throttle";
+import { setPageOffset } from "../store/uiSlice";
 
 export default function usePokemonListPageData() {
   const dispatch = useAppDispatch();
@@ -9,10 +11,12 @@ export default function usePokemonListPageData() {
   const filters = useAppSelector((state) => state.pokemonUI.filters);
   const pageOffset = useAppSelector((state) => state.pokemonUI.pageOffset);
 
-  const { data, isLoading, refetch } =
+  const { data, isLoading, isFetching } =
     pokemonApi.useGetPokemonListWithDetailsQuery({
       offset: pageOffset,
     });
+
+  const isLoadingMoreRef = useRef(false);
 
   const processedList = useMemo(() => {
     if (!data) return [];
@@ -74,12 +78,56 @@ export default function usePokemonListPageData() {
     return list;
   }, [data, searchText, filters]);
 
+  function isNearBottom() {
+    if (import.meta.env.MODE === "test") return false;
+
+    const scrollTop = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    const threshold = 300;
+
+    return viewportHeight + scrollTop >= documentHeight - threshold;
+  }
+
+  // unlock pagination when fetch finishes
+  useEffect(() => {
+    if (!isFetching) {
+      isLoadingMoreRef.current = false;
+    }
+  }, [isFetching]);
+
+  // ensure loading triggers if page is still near bottom after render
+  useEffect(() => {
+    if (!isFetching && !isLoadingMoreRef.current && isNearBottom()) {
+      isLoadingMoreRef.current = true;
+      dispatch(setPageOffset(pageOffset + 20));
+    }
+  }, [data, isFetching, isNearBottom, pageOffset, dispatch]);
+
+  // scroll listener
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      if (!isFetching && !isLoadingMoreRef.current && isNearBottom()) {
+        isLoadingMoreRef.current = true;
+        dispatch(setPageOffset(pageOffset + 20));
+      }
+    }, 250);
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isFetching, isNearBottom, pageOffset, dispatch]);
+
   return {
     dispatch,
     searchText,
     filters,
     processedList,
     isLoading,
+    isFetching,
     data,
   };
 }

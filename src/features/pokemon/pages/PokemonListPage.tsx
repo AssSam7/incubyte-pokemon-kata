@@ -11,8 +11,18 @@ import { setSearchText } from "../store/uiSlice";
 import usePokemonListPageData from "../hooks/usePokemonListPageData";
 
 export default function PokemonListPage() {
-  const { dispatch, searchText, filters, processedList, isLoading, data } =
-    usePokemonListPageData();
+  const {
+    dispatch,
+    searchText,
+    filters,
+    processedList,
+    isLoading,
+    isFetching,
+    data,
+  } = usePokemonListPageData();
+
+  const showInitialLoader = isLoading && !data;
+  const showBottomLoader = isFetching && !!data;
 
   return (
     <div className={styles.container}>
@@ -41,7 +51,7 @@ export default function PokemonListPage() {
 
       <ActionToolbar />
 
-      {isLoading && !data ? (
+      {showInitialLoader ? (
         <PokemonListSkeleton />
       ) : processedList.length === 0 ? (
         <EmptyState
@@ -50,7 +60,15 @@ export default function PokemonListPage() {
           hasActiveFilters={filters.type !== "" || filters.ability !== ""}
         />
       ) : (
-        <PokemonList pokemons={processedList} />
+        <>
+          <PokemonList pokemons={processedList} />
+
+          {showBottomLoader && (
+            <div className={styles.bottomLoader}>
+              <PokemonListSkeleton small />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

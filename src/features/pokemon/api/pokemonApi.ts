@@ -26,7 +26,7 @@ export const pokemonApi = createApi({
     }),
     getPokemonListWithDetails: builder.query<
       EnrichedPokemon[],
-      { offset: string }
+      { offset: number }
     >({
       async queryFn(_arg, _queryApi, _extraOptions, baseQuery) {
         const listResult = await baseQuery(
