@@ -19,10 +19,10 @@ export default function PokemonListPage() {
     isLoading,
     isFetching,
     data,
+    loadMoreRef,
   } = usePokemonListPageData();
 
   const showInitialLoader = isLoading && !data;
-  const showBottomLoader = isFetching && !!data;
 
   return (
     <div className={styles.container}>
@@ -63,11 +63,13 @@ export default function PokemonListPage() {
         <>
           <PokemonList pokemons={processedList} />
 
-          {showBottomLoader && (
+          {isFetching && data && (
             <div className={styles.bottomLoader}>
               <PokemonListSkeleton small />
             </div>
           )}
+
+          <div ref={loadMoreRef} className={styles.loadTrigger} />
         </>
       )}
     </div>

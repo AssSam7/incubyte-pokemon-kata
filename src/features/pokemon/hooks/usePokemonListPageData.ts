@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { pokemonApi } from "../api/pokemonApi";
-import { useEffect, useMemo, useRef, useCallback } from "react";
-import throttle from "@/utils/throttle";
+import { useEffect, useMemo, useRef } from "react";
 import { setPageOffset } from "../store/uiSlice";
 
 export default function usePokemonListPageData() {
@@ -16,21 +15,20 @@ export default function usePokemonListPageData() {
       offset: pageOffset,
     });
 
-  const isLoadingMoreRef = useRef(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const processedList = useMemo(() => {
     if (!data) return [];
 
     let list = [...data];
 
-    // 🔎 SEARCH
     if (searchText) {
       list = list.filter((p) =>
         p.name.toLowerCase().includes(searchText.toLowerCase())
       );
     }
 
-    // 🏷 TYPE FILTER
     if (filters.type) {
       list = list.filter((p) =>
         p.types.some(
@@ -39,7 +37,6 @@ export default function usePokemonListPageData() {
       );
     }
 
-    // ✨ ABILITY FILTER
     if (filters.ability) {
       list = list.filter(
         (p) =>
@@ -47,7 +44,6 @@ export default function usePokemonListPageData() {
       );
     }
 
-    // 📏 HEIGHT SORT
     if (filters.height === "height_asc") {
       list.sort((a, b) => (a.height ?? 0) - (b.height ?? 0));
     }
@@ -56,7 +52,6 @@ export default function usePokemonListPageData() {
       list.sort((a, b) => (b.height ?? 0) - (a.height ?? 0));
     }
 
-    // 🔢 ID / NAME SORT
     switch (filters.sortBy) {
       case "id_asc":
         list.sort((a, b) => a.id - b.id);
@@ -78,48 +73,30 @@ export default function usePokemonListPageData() {
     return list;
   }, [data, searchText, filters]);
 
-  function isNearBottom() {
-    if (import.meta.env.MODE === "test") return false;
-
-    const scrollTop = window.scrollY;
-    const viewportHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-
-    const threshold = 300;
-
-    return viewportHeight + scrollTop >= documentHeight - threshold;
-  }
-
-  // unlock pagination when fetch finishes
   useEffect(() => {
-    if (!isFetching) {
-      isLoadingMoreRef.current = false;
-    }
-  }, [isFetching]);
+    if (!loadMoreRef.current) return;
 
-  // ensure loading triggers if page is still near bottom after render
-  useEffect(() => {
-    if (!isFetching && !isLoadingMoreRef.current && isNearBottom()) {
-      isLoadingMoreRef.current = true;
-      dispatch(setPageOffset(pageOffset + 20));
-    }
-  }, [data, isFetching, isNearBottom, pageOffset, dispatch]);
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
 
-  // scroll listener
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      if (!isFetching && !isLoadingMoreRef.current && isNearBottom()) {
-        isLoadingMoreRef.current = true;
-        dispatch(setPageOffset(pageOffset + 20));
+        if (entry.isIntersecting && !isFetching) {
+          dispatch(setPageOffset(pageOffset + 20));
+        }
+      },
+      {
+        root: null,
+        rootMargin: "200px",
+        threshold: 0,
       }
-    }, 250);
+    );
 
-    window.addEventListener("scroll", handleScroll);
+    observerRef.current.observe(loadMoreRef.current);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      observerRef.current?.disconnect();
     };
-  }, [isFetching, isNearBottom, pageOffset, dispatch]);
+  }, [dispatch, pageOffset, isFetching]);
 
   return {
     dispatch,
@@ -129,5 +106,6 @@ export default function usePokemonListPageData() {
     isLoading,
     isFetching,
     data,
+    loadMoreRef,
   };
 }

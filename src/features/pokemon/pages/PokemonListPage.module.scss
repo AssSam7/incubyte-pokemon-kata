@@ -131,6 +131,10 @@
   width: 100%;
 }
 
+.loadTrigger {
+  height: 1px;
+}
+
 /* TABLET RESPONSIVENESS */
 
 @media (max-width: $bp-tablet) {
