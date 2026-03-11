@@ -36,4 +36,13 @@ describe("pokemonUISlice", () => {
 
     expect(resetState.filters.type).toBe("");
   });
+
+  it("should handle page offset", () => {
+    const state = reducer(undefined, {
+      type: "pokemonUI/setPageOffset",
+      payload: 10,
+    });
+
+    expect(state.pageOffset).toBe(10);
+  });
 });
