@@ -29,10 +29,8 @@ export const pokemonApi = createApi({
       { offset: string }
     >({
       async queryFn(_arg, _queryApi, _extraOptions, baseQuery) {
-        console.log("Arguments are: ", _arg);
-        // 1️⃣ Fetch list
         const listResult = await baseQuery(
-          `https://pokeapi.co/api/v2/pokemon?offset=${_arg.offset}&limit=20`
+          `pokemon?offset=${_arg.offset}&limit=20`
         );
 
         if (listResult.error) {
@@ -43,12 +41,9 @@ export const pokemonApi = createApi({
           results: { name: string }[];
         };
 
-        // 2️⃣ Fetch details in parallel
         const enriched = await Promise.all(
           listData.results.map(async (pokemon) => {
-            const detailResult = await baseQuery(
-              `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-            );
+            const detailResult = await baseQuery(`pokemon/${pokemon.name}`);
 
             if (detailResult.error) {
               throw detailResult.error;
@@ -78,6 +73,21 @@ export const pokemonApi = createApi({
         );
 
         return { data: enriched };
+      },
+
+      // 👇 make all pages share same cache key
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+
+      // 👇 merge new page with existing cache
+      merge: (currentCache, newItems) => {
+        currentCache.push(...newItems);
+      },
+
+      // 👇 refetch when offset changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.offset !== previousArg?.offset;
       },
     }),
     getPokemonSpecies: builder.query<PokemonSpecies, string>({

@@ -10,7 +10,7 @@ type PokemonUIState = {
 const initialState: PokemonUIState = {
   searchText: "",
   filters: initialFilters,
-  pageOffset: "20",
+  pageOffset: "0",
 };
 
 const pokemonUISlice = createSlice({
