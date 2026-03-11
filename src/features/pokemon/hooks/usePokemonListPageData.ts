@@ -15,8 +15,40 @@ export default function usePokemonListPageData() {
       offset: pageOffset,
     });
 
+  const hasActiveFilters = filters.type !== "" || filters.ability !== "";
+  const stateRef = useRef({
+    pageOffset,
+    isFetching,
+    hasActiveFilters,
+  });
+
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  const loadMoreRef = (node: HTMLDivElement | null) => {
+    if (!node) return;
+
+    observerRef.current?.disconnect();
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+
+        const { pageOffset, isFetching, hasActiveFilters } = stateRef.current;
+
+        if (isFetching || hasActiveFilters) return;
+
+        dispatch(setPageOffset(pageOffset + 20));
+      },
+      {
+        root: null,
+        rootMargin: "200px",
+        threshold: 0,
+      }
+    );
+
+    observerRef.current.observe(node);
+  };
 
   const processedList = useMemo(() => {
     if (!data) return [];
@@ -74,29 +106,12 @@ export default function usePokemonListPageData() {
   }, [data, searchText, filters]);
 
   useEffect(() => {
-    if (!loadMoreRef.current) return;
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-
-        if (entry.isIntersecting && !isFetching) {
-          dispatch(setPageOffset(pageOffset + 20));
-        }
-      },
-      {
-        root: null,
-        rootMargin: "200px",
-        threshold: 0,
-      }
-    );
-
-    observerRef.current.observe(loadMoreRef.current);
-
-    return () => {
-      observerRef.current?.disconnect();
+    stateRef.current = {
+      pageOffset,
+      isFetching,
+      hasActiveFilters,
     };
-  }, [dispatch, pageOffset, isFetching]);
+  }, [pageOffset, isFetching, hasActiveFilters]);
 
   return {
     dispatch,
