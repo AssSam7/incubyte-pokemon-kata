@@ -17,13 +17,80 @@ describe("pokemonUISlice", () => {
     expect(state.searchText).toBe("pikachu");
   });
 
-  it("should update specific filter", () => {
+  it("should update specific filter - single select", () => {
     const state = reducer(
       undefined,
       setFilters({ key: "type", value: "fire" })
     );
 
     expect(state.filters.type).toBe("fire");
+  });
+
+  it("should update specific filter - multi select", () => {
+    const first = reducer(
+      undefined,
+      setFilters({ key: "type", value: "fire" })
+    );
+
+    const second = reducer(first, setFilters({ key: "type", value: "water" }));
+
+    expect(second.filters.type).toBe("fire,water");
+  });
+
+  it("should toggle multi-select if same option was selected", () => {
+    const first = reducer(
+      undefined,
+      setFilters({ key: "type", value: "fire" })
+    );
+
+    const second = reducer(first, setFilters({ key: "type", value: "fire" }));
+
+    expect(second.filters.type).toBe("");
+  });
+
+  it("should remove only the selected value from multi-select", () => {
+    const state = {
+      searchText: "",
+      pageOffset: 0,
+      filters: {
+        type: "fire,water",
+        ability: "",
+        sortBy: "",
+        height: "",
+      },
+    };
+
+    const next = reducer(state, setFilters({ key: "type", value: "fire" }));
+
+    expect(next.filters.type).toBe("water");
+  });
+
+  it("should overwrite single select filters", () => {
+    const first = reducer(
+      undefined,
+      setFilters({ key: "sortBy", value: "height" })
+    );
+
+    const second = reducer(
+      first,
+      setFilters({ key: "sortBy", value: "weight" })
+    );
+
+    expect(second.filters.sortBy).toBe("weight");
+  });
+
+  it("should support multi-select for ability filter", () => {
+    const first = reducer(
+      undefined,
+      setFilters({ key: "ability", value: "overgrow" })
+    );
+
+    const second = reducer(
+      first,
+      setFilters({ key: "ability", value: "blaze" })
+    );
+
+    expect(second.filters.ability).toBe("overgrow,blaze");
   });
 
   it("should reset filters", () => {
