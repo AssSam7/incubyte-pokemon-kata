@@ -1,6 +1,6 @@
 import { expect, beforeAll, afterEach, afterAll } from "vitest";
 import userEvent from "@testing-library/user-event";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { setupServer } from "msw/node";
 import { http } from "msw";
@@ -21,6 +21,23 @@ function createTestStore() {
     middleware: (gDM) => gDM().concat(pokemonApi.middleware),
   });
 }
+
+let intersectionCallback: IntersectionObserverCallback;
+
+class IntersectionObserverMock {
+  constructor(cb: IntersectionObserverCallback) {
+    intersectionCallback = cb;
+  }
+
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+Object.defineProperty(globalThis, "IntersectionObserver", {
+  writable: true,
+  value: IntersectionObserverMock,
+});
 
 const server = setupServer(
   // 1️⃣ List endpoint
@@ -161,5 +178,29 @@ describe("PokemonListPage - enriched list", () => {
     await user.click(suggestion);
 
     expect(input).toHaveValue("bulbasaur");
+  });
+
+  it("simulate observer to check pageOffset", async () => {
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <PokemonListPage />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    // wait for initial fetch to finish as we do the scroll after initial data loads
+    await screen.findByText("Bulbasaur");
+
+    act(() => {
+      intersectionCallback(
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        {} as IntersectionObserver
+      );
+    });
+
+    expect(store.getState().pokemonUI.pageOffset).toBe(20);
   });
 });

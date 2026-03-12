@@ -6,4 +6,8 @@ class IntersectionObserverMock {
   disconnect() {}
 }
 
-(globalThis as any).IntersectionObserver = IntersectionObserverMock;
+Object.defineProperty(globalThis, "IntersectionObserver", {
+  writable: true,
+  configurable: true,
+  value: IntersectionObserverMock,
+});
