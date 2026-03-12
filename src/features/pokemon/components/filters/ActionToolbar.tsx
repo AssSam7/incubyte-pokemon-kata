@@ -94,6 +94,7 @@ export default function ActionToolbar() {
         <span className={styles.filterLabel}>Type:</span>
         <Select
           variant="type"
+          multiSelect
           icon={<BookType size={18} />}
           label="All Types"
           options={filterOptions.type}
@@ -110,6 +111,7 @@ export default function ActionToolbar() {
         <span className={styles.filterLabel}>Ability:</span>
         <Select
           variant="ability"
+          multiSelect
           icon={<Sparkles size={18} />}
           label="All Abilities"
           options={filterOptions.ability}

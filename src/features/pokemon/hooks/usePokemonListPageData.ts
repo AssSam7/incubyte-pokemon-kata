@@ -63,9 +63,7 @@ export default function usePokemonListPageData() {
 
     if (filters.type) {
       list = list.filter((p) =>
-        p.types.some(
-          (type) => type.toLowerCase() === filters.type.toLowerCase()
-        )
+        p.types.some((type) => filters.type.includes(type.toLowerCase()))
       );
     }
 

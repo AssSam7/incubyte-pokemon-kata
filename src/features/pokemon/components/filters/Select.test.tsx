@@ -39,7 +39,7 @@ describe("Select Component - rendering", () => {
     expect(onToggle).toHaveBeenCalled();
   });
 
-  it("renders options when open", () => {
+  it("renders options when open - single select", () => {
     render(
       <Select
         label="All Types"
@@ -136,5 +136,26 @@ describe("Select Component - rendering", () => {
     );
 
     expect(screen.getByText("Fire")).toBeInTheDocument();
+  });
+
+  it("check if we can select multiple filters for type", () => {
+    render(
+      <Select
+        multiSelect
+        label="All Types"
+        options={[
+          { label: "Fire", value: "fire" },
+          { label: "Grass", value: "grass" },
+          { label: "Water", value: "water" },
+        ]}
+        selectedValue="fire,water"
+        isOpen={false}
+        onToggle={vi.fn()}
+        onSelectOption={vi.fn()}
+        onClose={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText("2 selected")).toBeInTheDocument();
   });
 });

@@ -13,6 +13,7 @@ type Props = {
   onSelectOption: (value: string) => void;
   isOpen: boolean;
   onClose: () => void;
+  multiSelect?: boolean;
 };
 
 export default function Select({
@@ -25,9 +26,21 @@ export default function Select({
   onSelectOption,
   isOpen,
   onClose,
+  multiSelect = false,
 }: Props) {
-  const selectedOption = options.find((opt) => opt.value === selectedValue);
   const selectDropDownRef = useRef<HTMLDivElement>(null);
+
+  const selectedValues = multiSelect
+    ? selectedValue?.split(",").filter(Boolean) ?? []
+    : selectedValue
+    ? [selectedValue]
+    : [];
+
+  const selectedOptionLabel = multiSelect
+    ? selectedValues.length > 1
+      ? `${selectedValues.length} selected`
+      : options.find((o) => o.value === selectedValues[0])?.label
+    : options.find((o) => o.value === selectedValues[0])?.label;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +53,7 @@ export default function Select({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -49,13 +63,13 @@ export default function Select({
     <div className={styles.selectButtonContainer}>
       <div
         className={`${styles.selectButton} 
-          ${isOpen ? styles.active : ""} 
-          ${variant ? styles[variant] : ""}`}
+        ${isOpen ? styles.active : ""} 
+        ${variant ? styles[variant] : ""}`}
         onClick={onToggle}
       >
         <div>
           {icon}
-          <span>{selectedOption?.label ?? label}</span>
+          <span>{selectedOptionLabel ?? label}</span>
         </div>
         <ChevronDown size={18} />
       </div>
@@ -63,7 +77,7 @@ export default function Select({
       {isOpen && (
         <div ref={selectDropDownRef} className={styles.dropDownPanel}>
           {options.map((option) => {
-            const isSelected = option.value === selectedValue;
+            const isSelected = selectedValues.includes(option.value);
 
             return (
               <div
