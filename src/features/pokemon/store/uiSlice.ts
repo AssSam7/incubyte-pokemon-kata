@@ -55,6 +55,13 @@ const pokemonUISlice = createSlice({
       state.filters[key] = value;
     },
 
+    setFilterFromUrl(
+      state,
+      action: PayloadAction<{ key: FilterKey; value: string }>
+    ) {
+      state.filters[action.payload.key] = action.payload.value;
+    },
+
     setPageOffset(state, action: PayloadAction<number>) {
       state.pageOffset = action.payload;
     },
@@ -76,6 +83,7 @@ const pokemonUISlice = createSlice({
 export const {
   setSearchText,
   setFilters,
+  setFilterFromUrl,
   setPageOffset,
   resetFilters,
   clearAllFilters,

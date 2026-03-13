@@ -1,7 +1,14 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { pokemonApi } from "../api/pokemonApi";
 import { useEffect, useMemo, useRef } from "react";
-import { setPageOffset } from "../store/uiSlice";
+import {
+  setFilterFromUrl,
+  setFilters,
+  setPageOffset,
+  setSearchText,
+} from "../store/uiSlice";
+import buildFilterQueryParams from "../utils/buildFilterQueryParams";
+import { useSearchParams } from "react-router-dom";
 
 export default function usePokemonListPageData() {
   const dispatch = useAppDispatch();
@@ -9,6 +16,8 @@ export default function usePokemonListPageData() {
   const searchText = useAppSelector((state) => state.pokemonUI.searchText);
   const filters = useAppSelector((state) => state.pokemonUI.filters);
   const pageOffset = useAppSelector((state) => state.pokemonUI.pageOffset);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { data, isLoading, isFetching } =
     pokemonApi.useGetPokemonListWithDetailsQuery({
@@ -104,12 +113,49 @@ export default function usePokemonListPageData() {
   }, [data, searchText, filters]);
 
   useEffect(() => {
+    const searchTermParam = searchParams.get("search");
+    const typeParam = searchParams.get("type");
+    const abilityParam = searchParams.get("abilities");
+
+    if (searchTermParam) {
+      dispatch(setSearchText(searchTermParam));
+    }
+
+    if (typeParam) {
+      const uniqueTypes = [...new Set(typeParam.split(","))].join(",");
+      dispatch(setFilterFromUrl({ key: "type", value: uniqueTypes }));
+    }
+
+    if (abilityParam) {
+      const uniqueAbilities = [...new Set(abilityParam.split(","))].join(",");
+      dispatch(setFilterFromUrl({ key: "ability", value: uniqueAbilities }));
+    }
+  }, []);
+
+  useEffect(() => {
     stateRef.current = {
       pageOffset,
       isFetching,
       hasActiveFilters,
     };
   }, [pageOffset, isFetching, hasActiveFilters]);
+
+  const hasHydratedFromUrl = useRef(false);
+
+  useEffect(() => {
+    if (!hasHydratedFromUrl.current) {
+      hasHydratedFromUrl.current = true;
+      return;
+    }
+
+    const params = buildFilterQueryParams({
+      search: searchText,
+      type: filters.type,
+      abilities: filters.ability,
+    });
+
+    setSearchParams(params);
+  }, [filters.type, filters.ability, searchText]);
 
   return {
     dispatch,
