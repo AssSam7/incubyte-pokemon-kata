@@ -203,4 +203,36 @@ describe("PokemonListPage - enriched list", () => {
 
     expect(store.getState().pokemonUI.pageOffset).toBe(20);
   });
+
+  it("check if user is able to save the filters", async () => {
+    const store = createTestStore();
+    const user = userEvent.setup();
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <PokemonListPage />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await screen.findByText("Bulbasaur");
+
+    // open Type dropdown
+    const typeDropdown = screen.getByText("All Types");
+    await user.click(typeDropdown);
+
+    // wait for Fire option
+    const fireOption = await screen.findByRole("option", { name: /fire/i });
+    await user.click(fireOption);
+
+    // click Save Filters
+    const saveButton = screen.getByRole("button", { name: /save/i });
+    await user.click(saveButton);
+
+    const { filters, savedFilters } = store.getState().pokemonUI;
+
+    expect(filters.type).toBe("fire");
+    expect(savedFilters.type).toBe("fire");
+  });
 });

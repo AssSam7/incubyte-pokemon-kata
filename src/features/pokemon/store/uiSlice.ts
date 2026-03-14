@@ -5,12 +5,14 @@ type PokemonUIState = {
   searchText: string;
   filters: Filters;
   pageOffset: number;
+  savedFilters: Filters;
 };
 
 const initialState: PokemonUIState = {
   searchText: "",
   filters: initialFilters,
   pageOffset: 0,
+  savedFilters: initialFilters,
 };
 
 const pokemonUISlice = createSlice({
@@ -62,6 +64,14 @@ const pokemonUISlice = createSlice({
       state.filters[action.payload.key] = action.payload.value;
     },
 
+    setSavedFilters(state) {
+      state.savedFilters = { ...state.filters };
+    },
+
+    setFiltersFromSaved(state) {
+      state.filters = { ...state.savedFilters };
+    },
+
     setPageOffset(state, action: PayloadAction<number>) {
       state.pageOffset = action.payload;
     },
@@ -84,6 +94,8 @@ export const {
   setSearchText,
   setFilters,
   setFilterFromUrl,
+  setSavedFilters,
+  setFiltersFromSaved,
   setPageOffset,
   resetFilters,
   clearAllFilters,

@@ -3,7 +3,12 @@ import styles from "./ActionToolbar.module.scss";
 import Select from "./Select";
 import { ArrowUpDown, BookType, Ruler, Sparkles } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { clearAllFilters, resetFilters, setFilters } from "../../store/uiSlice";
+import {
+  clearAllFilters,
+  resetFilters,
+  setFilters,
+  setSavedFilters,
+} from "../../store/uiSlice";
 import { FilterKey, SelectOption } from "../../types/filters";
 
 const filterOptions: Record<FilterKey, SelectOption[]> = {
@@ -152,6 +157,12 @@ export default function ActionToolbar() {
           onClick={() => dispatch(clearAllFilters())}
         >
           Clear All
+        </button>
+        <button
+          className={styles.clearBtn}
+          onClick={() => dispatch(setSavedFilters())}
+        >
+          Save Filters
         </button>
       </div>
     </div>

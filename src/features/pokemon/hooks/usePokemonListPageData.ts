@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import {
   setFilterFromUrl,
   setFilters,
+  setFiltersFromSaved,
   setPageOffset,
   setSearchText,
 } from "../store/uiSlice";
@@ -71,8 +72,10 @@ export default function usePokemonListPageData() {
     }
 
     if (filters.type) {
+      const selectedTypes = filters.type.split(",");
+
       list = list.filter((p) =>
-        p.types.some((type) => filters.type.includes(type.toLowerCase()))
+        p.types.some((type) => selectedTypes.includes(type.toLowerCase()))
       );
     }
 
@@ -111,6 +114,10 @@ export default function usePokemonListPageData() {
 
     return list;
   }, [data, searchText, filters]);
+
+  useEffect(() => {
+    dispatch(setFiltersFromSaved());
+  }, []);
 
   useEffect(() => {
     const searchTermParam = searchParams.get("search");
