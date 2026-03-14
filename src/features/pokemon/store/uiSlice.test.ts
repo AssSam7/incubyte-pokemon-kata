@@ -1,3 +1,4 @@
+import { initialFilters } from "../types";
 import reducer, { setSearchText, setFilters, resetFilters } from "./uiSlice";
 
 describe("pokemonUISlice", () => {
@@ -58,6 +59,7 @@ describe("pokemonUISlice", () => {
         sortBy: "",
         height: "",
       },
+      savedFilters: initialFilters,
     };
 
     const next = reducer(state, setFilters({ key: "type", value: "fire" }));
