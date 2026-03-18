@@ -3,12 +3,7 @@ import styles from "./ActionToolbar.module.scss";
 import Select from "./Select";
 import { ArrowUpDown, BookType, Ruler, Sparkles } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import {
-  clearAllFilters,
-  resetFilters,
-  setFilters,
-  setSavedFilters,
-} from "../../store/uiSlice";
+import { resetFilters, setFilters, setSavedFilters } from "../../store/uiSlice";
 import { FilterKey, SelectOption } from "../../types/filters";
 
 const filterOptions: Record<FilterKey, SelectOption[]> = {
@@ -62,6 +57,7 @@ export default function ActionToolbar() {
   const [openSelect, setOpenSelect] = useState<FilterKey | null>(null);
 
   const filters = useAppSelector((state) => state.pokemonUI.filters);
+  const savedFilters = useAppSelector((state) => state.pokemonUI.savedFilters);
 
   const toggle = (key: FilterKey) => {
     setOpenSelect(openSelect === key ? null : key);
@@ -154,17 +150,29 @@ export default function ActionToolbar() {
         </button>
         <button
           className={styles.clearBtn}
-          onClick={() => dispatch(clearAllFilters())}
-        >
-          Clear All
-        </button>
-        <button
-          className={styles.clearBtn}
           onClick={() => dispatch(setSavedFilters())}
         >
           Save Filters
         </button>
       </div>
+
+      {/* Saved Filters */}
+      {savedFilters.type.length > 0 && (
+        <div className={styles.savedFiltersGroup}>
+          <span className={styles.filterLabel}>Saved Filters:</span>
+          <div className={styles.savedFilters}>
+            {savedFilters.type.split(",").map((t) => (
+              <span
+                key={t}
+                className={`${styles.badge} ${styles[t]}`}
+                // onClick={() => handleSelect("type", t)}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

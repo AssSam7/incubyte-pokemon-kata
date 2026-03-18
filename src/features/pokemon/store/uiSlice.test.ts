@@ -114,4 +114,12 @@ describe("pokemonUISlice", () => {
 
     expect(state.pageOffset).toBe(10);
   });
+
+  it("should handle save filters", () => {
+    const state = reducer(undefined, {
+      type: "pokemonUI/saveFilters",
+    });
+
+    expect(state.savedFilters).toEqual(initialFilters);
+  });
 });

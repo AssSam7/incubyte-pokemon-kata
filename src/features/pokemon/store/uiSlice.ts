@@ -68,10 +68,6 @@ const pokemonUISlice = createSlice({
       state.savedFilters = { ...state.filters };
     },
 
-    setFiltersFromSaved(state) {
-      state.filters = { ...state.savedFilters };
-    },
-
     setPageOffset(state, action: PayloadAction<number>) {
       state.pageOffset = action.payload;
     },
@@ -95,7 +91,6 @@ export const {
   setFilters,
   setFilterFromUrl,
   setSavedFilters,
-  setFiltersFromSaved,
   setPageOffset,
   resetFilters,
   clearAllFilters,

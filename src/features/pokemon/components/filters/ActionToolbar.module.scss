@@ -63,6 +63,29 @@
   background: #e13e40;
 }
 
+/* ================= SAVED FILTERS ================= */
+.savedFiltersGroup {
+  display: flex;
+  // gap: 18px;
+  align-items: center;
+}
+
+.savedFilters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 18px;
+  background: rgba(116, 185, 255, 0.5);
+  font-size: 16px;
+  font-weight: 500;
+  color: #0984e3;
+}
+
 /* ================= TABLET ================= */
 @media (max-width: $bp-tablet) {
   .toolbar {
